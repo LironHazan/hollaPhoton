@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('./LED/app');
+var app = require('./backend/app');
 var debug = require('debug')('myPhoton:server');
 var http = require('http');
 
