@@ -5,13 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var helloWorld = require('./helloWorld');
-//var users = require('./users');
+//route e.g.
+var helloWorld = require('./helloworld/helloWorld');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'helloworld'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
