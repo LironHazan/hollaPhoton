@@ -1,13 +1,13 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+//var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //route e.g.
 var helloWorld = require('./helloworld/helloWorld');
-
+var leds = require('./LED');
 var app = express();
 
 // view engine setup
@@ -23,7 +23,22 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, './public')));
 
 app.use('/', helloWorld);
-//app.use('/users', users);
+
+/***********************************************************************
+ *              Photon Routes Start
+ **********************************************************************/
+var router = express.Router();
+router.use('/led', leds.controller); // all led routes goes throw /backend/led/
+
+/***********************************************************************
+ *              Photon Routes Stop
+ **********************************************************************/
+app.use('/backend', router); // all routes goes throw \backend
+
+app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '..', '.tmp')));
+//app.use('/bower_components',express.static(path.join(__dirname, '..', './bower_components')));
+app.use(express.static(path.join(__dirname, '..', 'app')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,7 +52,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function(err, req, res/*, next*/) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -48,7 +63,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res/*, next*/) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -56,5 +71,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// general errors will be caught here
+process.on('uncaughtException', function(err) {
+  console.error('Caught exception: ' + err);
+});
 
 module.exports = app;

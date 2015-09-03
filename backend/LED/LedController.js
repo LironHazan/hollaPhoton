@@ -5,8 +5,10 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/led', function(req, res, next) {
-    res.status(200).send({msg:'hello'});
-});
+function testService(req, res){
+
+    res.send({msg:'hello, you have reached to: ' + req.originalUrl});
+}
+router.get('/test', testService);
 
 module.exports = router;
