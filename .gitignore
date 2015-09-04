@@ -3,3 +3,4 @@ node_modules
 hollaPhoton.iml
 /backend/conf.json
 data
+bower_components
