@@ -7,7 +7,7 @@ angular.module('Photon').service('LoginService', function ( $http ) {
 
     function login(userDetails){
 
-        return $http.post('/backend/login', userDetails);
+        return $http.post('/backend/led/login', userDetails);
     }
 
     this.login = login;

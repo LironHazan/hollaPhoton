@@ -5,15 +5,15 @@
 var spark = require('spark');
 var Q = require('q');
 
-exports.loginToSpark = function(username, passwd){
-    var deffered = q.defer();
+exports.loginToSpark = function(creds){
+    var deffered = Q.defer();
 
-    spark.login({username: username, password: passwd}).then(function success(token){
+    spark.login({username: creds.email, password: creds.passwd}).then(function success(token){
         deffered.resolve(token);
     }, function error(err){
         deffered.reject(err);
     });
 
-    deffered.promise;
+   return deffered.promise;
 };
 

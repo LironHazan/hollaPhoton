@@ -16,8 +16,9 @@ angular.module('Photon').controller('LoginCtrl', function ( $scope, item, $modal
             $scope.isLogin = true;
             LoginService.login({email:$scope.item.email, passwd:$scope.item.passwd}).then( function success (){
                 $modalInstance.dismiss('login');
-            }, function error(data){
-                toastr.error(data.msg, 'Error While Trying To Login' , toastrOpts);
+            }, function error(err){
+                $scope.isLogin = false;
+                toastr.error(err.data, 'Error While Trying To Login' , toastrOpts);
             });
 
           }

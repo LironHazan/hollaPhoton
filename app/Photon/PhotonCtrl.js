@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Photon').controller('PhotonCtrl', function ($scope, $modal) {
+angular.module('Photon').controller('PhotonCtrl', function ($scope, $modal, DevicesService) {
 
     $scope.animationsEnabled = true;
 
@@ -26,5 +26,13 @@ angular.module('Photon').controller('PhotonCtrl', function ($scope, $modal) {
         };
 
     };
+
+    $scope.getDevices = function(){
+        DevicesService.getListDevices().then(function success(list){
+
+        }, function error(err){
+
+        });
+    }
 
 });
