@@ -8,6 +8,8 @@ var ledDao = require('./LedDoa');
 var loginToParicale = require('../Login/LoginToParticle');
 var spark = require('spark');
 var _ = require("lodash");
+var sessionLoginDao = require('../Login/User');
+var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 
 //todo: may need to change to 'add or update'
 var timestamp = new Date().getTime().toString();
@@ -48,7 +50,7 @@ function updateLedService(req, res){
 }
 router.get('/update', updateLedService);
 
-function login(req, res){
+/*function login(req, res){
     var creds = req.body;
     credsCache = creds;
 
@@ -57,6 +59,31 @@ function login(req, res){
     }, function error(err){
         res.status(404).send(err.message);
     });
+}
+router.post('/login', login);*/
+
+function login (req, res) {
+
+    var creds = req.body;
+    credsCache = creds;
+
+    sessionLoginDao.User.storeAndSignUser({email: creds.email}).then(
+        function success(user) {
+
+            req.session.userId = user._id.toString();
+
+            loginToParicale.loginToSpark(creds).then(function success(token) {
+                res.status(200).send({msg: 'Hey ' + creds.email + ' you are currently logged in to the particle cloud'});
+
+            }, function error(err) {
+                res.status(404).send(err.message);
+            });
+
+        }, function error(err) {
+            res.status(404).send(err);
+        }
+    );
+
 }
 router.post('/login', login);
 
@@ -97,7 +124,7 @@ function getListOfDevices(req, res){
 
 
 }
-router.get('/listDevices', getListOfDevices);
+router.get('/listDevices', sessionLoginMiddleware.getUserSessionId, getListOfDevices);
 
 
 module.exports = router;

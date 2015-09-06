@@ -4,8 +4,10 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./conf');
 
 var leds = require('./LED');
+var session = require('./Login');
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -14,6 +16,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('cookie-session')({
+  secret: config.sessionSecret,
+  cookie:{maxAge:600000}
+}));
 //app.use(express.static(path.join(__dirname, './public')));
 
 
@@ -22,7 +28,7 @@ app.use(cookieParser());
  **********************************************************************/
 var router = express.Router();
 router.use('/led', leds.controller); // all led routes goes throw /backend/led/
-
+router.use('/session', session.controller);
 /***********************************************************************
  *              Photon Routes Stop
  **********************************************************************/

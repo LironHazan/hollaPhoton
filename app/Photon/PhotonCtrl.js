@@ -8,6 +8,31 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     $rootScope.globals = {
         creds : {} //todo: check why in refresh the state wont be saved
     };
+    $scope.devicesList = [];
+
+    LoginService.getLoggedUser().then(function (data) {
+        $scope.greeting = 'Hello! you are connected as: ' + data.data.name;
+        $scope.loggedIn = true;
+
+    });
+
+    //fetch devices on refresh (user details are on session)
+    DevicesService.getListDevices().then(function success(list){
+
+        $scope.loginBtn = false;
+        $scope.logOut =true;
+
+        $scope.devicesList = list.data.listOfDevices;
+        if( $scope.devicesList.length === 0){
+            $scope.emptyList = true;
+        }
+
+
+    }, function error(err){
+        console.log(err);
+        $scope.loginBtn = true;
+        $scope.loggedIn = false;
+    });
 
     $scope.animationsEnabled = true;
 
@@ -31,28 +56,20 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
     };
 
-    if($rootScope.globals.creds.email){
-        $scope.loggedIn = true;
-        $scope.loginBtn = true;
-        $scope.greeting = 'Hello! you are connected as: ' + creds.email;
-    }
-
     $rootScope.$on('userLoggedIn',function() {
         var creds = LoginService.getLoginCache();
         $rootScope.globals.creds = creds;
         $scope.loggedIn = true;
-        $scope.loginBtn = true;
+        $scope.loginBtn = false;
+        $scope.logOut =true;
         $scope.greeting = 'Hello! you are connected as: ' + creds.email;
     });
 
-    $scope.devicesList = [];
     $scope.getDevices = function(){
         DevicesService.getListDevices().then(function success(list){
-            if(list.data.length === 0){
+            $scope.devicesList = list.data.listOfDevices;
+            if( $scope.devicesList.length === 0){
                 $scope.emptyList = true;
-            }
-            else{
-                $scope.devicesList = list.data.listOfDevices;
             }
         }, function error(err){
             console.log(err);

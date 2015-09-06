@@ -22,4 +22,5 @@ angular.module('Photon').config(function($stateProvider) {
         templateUrl: 'Photon/Photon.html',
         controller: 'PhotonCtrl'
     });
+
 });
