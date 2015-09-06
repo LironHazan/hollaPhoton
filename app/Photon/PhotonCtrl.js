@@ -52,7 +52,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
                 $scope.emptyList = true;
             }
             else{
-                $scope.devicesList = list;
+                $scope.devicesList = list.data.listOfDevices;
             }
         }, function error(err){
             console.log(err);

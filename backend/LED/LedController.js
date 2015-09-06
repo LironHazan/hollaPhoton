@@ -7,6 +7,7 @@ var router = express.Router();
 var ledDao = require('./LedDoa');
 var loginToParicale = require('../Login/LoginToParticle');
 var spark = require('spark');
+var _ = require("lodash");
 
 //todo: may need to change to 'add or update'
 var timestamp = new Date().getTime().toString();
@@ -66,13 +67,27 @@ function logout(req, res){
 }
 router.post('/logout', logout); //or get
 
+function parseListOfDevices(devices){
+
+
+
+}
+
 function getListOfDevices(req, res){
 
     if(credsCache){
         spark.login({ username: credsCache.email, password: credsCache.passwd}).then(function success(){
             spark.listDevices().then(function(devices){
-                res.send(devices);
+                var listOfDevices = [];
+                _.each(devices, function(device){
+                    var _device = {id:device.id, name:device.name, connected:device.connected, lastApp:device.lastApp };
+                    listOfDevices.push(_device);
+
+                });
+                res.send({listOfDevices:listOfDevices});
             });
+        }, function error(err){
+            logger.error(err);
         });
 
 

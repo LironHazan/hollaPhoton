@@ -8,7 +8,14 @@
     <div class="container">
        <a ng-click="getDevices()"> <h5>Click to Refresh List of Connected Devices: </h5> </a>
         <h6  ng-show="emptyList"> No Devices </h6>
-        <div ng-repeat="device in devicesList" class="devices-list">
+            <table>
+                <tr ng-repeat="device in devicesList">
+                    <td> ID : {{ device.id }} </td>
+                    <td> Name : {{ device.name }} </td>
+                    <td> Connected : {{ device.connected }} </td>
+                  <!--  <td>Last App: {{ device.lastApp }} </td>-->
+                </tr>
+            </table>
 
         </div>
     </div>
