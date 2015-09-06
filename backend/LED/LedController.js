@@ -5,6 +5,8 @@
 var express = require('express');
 var router = express.Router();
 var ledDao = require('./LedDoa');
+var loginToParicale = require('../Login/LoginToParticle');
+var spark = require('spark');
 
 //todo: may need to change to 'add or update'
 var timestamp = new Date().getTime().toString();
@@ -43,4 +45,24 @@ function updateLedService(req, res){
 
 }
 router.get('/update', updateLedService);
+
+function login(req, res){
+    var creds = req.body;
+
+    loginToParicale.loginToSpark(creds).then(function success(token){
+
+        res.send({msg: 'Hey '+ creds.email + ' you are currently logged in to the particle cloud'});
+    }, function error(err){
+        res.status(404).send(err.message);
+    })
+}
+router.post('/login', login);
+
+function getListOfDevices(req, res){
+
+
+}
+router.post('/list-devices', getListOfDevices);
+
+
 module.exports = router;
