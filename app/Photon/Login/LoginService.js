@@ -23,7 +23,12 @@ angular.module('Photon').service('LoginService', function ( $http ) {
         return cache;
     }
 
+    function getLoggedUser() {
+        return $http.get('/backend/session/user');
+    }
+
     this.getLoginCache = getLoginCache;
     this.storeLoginDetails = storeLoginDetails;
     this.login = login;
+    this.getLoggedUser = getLoggedUser;
 });
