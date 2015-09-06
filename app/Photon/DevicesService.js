@@ -7,7 +7,7 @@ angular.module('Photon').service('DevicesService', function ( $http ) {
 
     function getListDevices(){
 
-        return $http.get('/backend/led/list-devices');
+        return $http.get('/backend/led/listDevices');
     }
 
     this.getListDevices = getListDevices;
