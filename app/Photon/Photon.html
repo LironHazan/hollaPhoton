@@ -1,11 +1,16 @@
 <div class="container">
     <h1> My Photon Devices State! </h1>
     <div class="container">
-        <button ng-hide="{{isHidden}}" class="btn-info" ng-click="open()">Please Sing In To See State </button>
+        <button ng-hide="loginBtn" class="btn-info" ng-click="open()">Please Sing In To See State </button>
+        <h6 ng-show="loggedIn" >{{greeting}}</h6>
     </div>
 
     <div class="container">
-       <a ng-click="getDevices"> <h5>Click to Refresh List of Connected Devices: </h5> </a>
+       <a ng-click="getDevices()"> <h5>Click to Refresh List of Connected Devices: </h5> </a>
+        <h6  ng-show="emptyList"> No Devices </h6>
+        <div ng-repeat="device in devicesList" class="devices-list">
+
+        </div>
     </div>
 </div>
 

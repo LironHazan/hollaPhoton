@@ -10,6 +10,7 @@ var spark = require('spark');
 
 //todo: may need to change to 'add or update'
 var timestamp = new Date().getTime().toString();
+var credsCache = null;
 
 function addNewLedService(req, res){
 
@@ -48,21 +49,40 @@ router.get('/update', updateLedService);
 
 function login(req, res){
     var creds = req.body;
+    credsCache = creds;
 
     loginToParicale.loginToSpark(creds).then(function success(token){
-
         res.send({msg: 'Hey '+ creds.email + ' you are currently logged in to the particle cloud'});
     }, function error(err){
         res.status(404).send(err.message);
-    })
+    });
 }
 router.post('/login', login);
 
+function logout(req, res){
+    credsCache = null;
+    //todo add remove token
+    res.status(200).send({msg:'logged out'});
+}
+router.post('/logout', logout); //or get
+
 function getListOfDevices(req, res){
+
+    if(credsCache){
+        spark.login({ username: credsCache.email, password: credsCache.passwd}).then(function success(){
+            spark.listDevices().then(function(devices){
+                res.send(devices);
+            });
+        });
+
+
+    }else{
+        res.status(401).send({msg:'pls login'});
+    }
 
 
 }
-router.post('/list-devices', getListOfDevices);
+router.get('/listDevices', getListOfDevices);
 
 
 module.exports = router;
