@@ -52,3 +52,11 @@ exports.getUserSessionId = function(req,res,next){
     next();
 
 };
+
+exports.logOut = function( req, res, next ){
+    //todo: fix logout - doen't work
+    req.sessionUser = null;
+    req.userSessionId = null;
+    next();
+
+};

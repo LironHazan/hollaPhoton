@@ -1,6 +1,6 @@
 <div class="container">
     <h1> My Photon Devices State! </h1>
-    <h6 ng-show="logOut" class="log-out" >  <i class="fa fa-sign-out"></i> <a> (Logout) </a> </h6>
+    <h6 ng-show="logOut" class="log-out" ng-click="logout()">  <i class="fa fa-sign-out"></i> <a> (Logout) </a> </h6>
     <div class="container">
         <button ng-show="loginBtn" class="btn-info" ng-click="open()">Please Sing In To See State </button>
         <h5 ng-show="loggedIn" >{{greeting}} </h5>

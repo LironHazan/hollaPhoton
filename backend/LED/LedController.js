@@ -87,13 +87,6 @@ function login (req, res) {
 }
 router.post('/login', login);
 
-function logout(req, res){
-    credsCache = null;
-    //todo add remove token
-    res.status(200).send({msg:'logged out'});
-}
-router.post('/logout', logout); //or get
-
 function parseListOfDevices(devices){
 
 

@@ -23,4 +23,10 @@ router.get('/user',middleware.loggedIn, function(req,res){
     res.status(200).send({name: req.sessionUser.email});
 });
 
+function logout(req, res){
+
+    res.status(200).send({msg:'logged out'});
+}
+router.get('/logout',middleware.logOut, logout);
+
 module.exports = router;

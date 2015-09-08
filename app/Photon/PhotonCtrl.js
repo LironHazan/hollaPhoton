@@ -74,6 +74,15 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         }, function error(err){
             console.log(err);
         });
+    };
+
+    $scope.logout = function(){
+
+        LoginService.logout().then(function success(data){
+
+        }, function err(err){
+
+        });
     }
 
 });
