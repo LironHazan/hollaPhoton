@@ -14,7 +14,7 @@ class LoginAdapter {
     }
 
     getCreds() {
-        return this._creds;
+        return this._creds.passwd;
     }
 
     login(){

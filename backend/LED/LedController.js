@@ -8,6 +8,7 @@ var ledDao = require('./LedDoa');
 var spark = require('spark');
 var _ = require("lodash");
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
+var logger = require('log4js').getLogger('LedController');
 
 
 var timestamp = new Date().getTime().toString();
@@ -52,22 +53,13 @@ router.get('/update', updateLedService);
 function getListOfDevices(req, res){
 
     if(req.creds){ // instead getUserCreds no need for cache
-        spark.login({ username: req.creds.email, password: req.creds.passwd}).then(function success(){
+        var passwd = sessionLoginMiddleware.getUserPass();
+        spark.login({ username: req.creds, password: passwd}).then(function success(){
             spark.listDevices().then(function(devices){
                 var listOfDevices = [];
                 _.each(devices, function(device){
                     var _device = {id:device.id, name:device.name, connected:device.connected, lastApp:device.lastApp };
                     listOfDevices.push(_device);
-
-                    // get var example
-                   /* device.getVariable('volts', function(err, data) {
-                        if (err) {
-                            console.log('An error occurred while getting attrs:', err);
-                        } else {
-                            console.log('Device attr retrieved successfully:', data);
-                        }
-                    });*/
-
                 });
                 res.send({listOfDevices:listOfDevices});
             });

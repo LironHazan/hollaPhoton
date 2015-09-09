@@ -7,16 +7,24 @@ var user = require('./User');
 var logger = require('log4js').getLogger('SessionMiddlewares');
 var loginToParicale = require('../Login/LoginToParticle');
 
+var userPass = null;
+
+exports.getUserPass = function(){
+ return userPass;
+
+};
+
 
 exports.login = function( req, res, next ){
 
     var creds = req.body;
     var adapter = new loginToParicale.LoginAdapter(creds);
+    userPass = adapter.getCreds();
     adapter.login().then(function success(token) {
 
 
-        req.creds = creds;
-        req.session.creds = creds;
+        req.creds = creds.email;
+        req.session.creds =  creds.email;
         next();
 //        res.status(200).send({msg: 'Hey ' + creds.email + ' you are currently logged in to the particle cloud'});
 
@@ -68,6 +76,7 @@ exports.getUserSessionId = function(req,res,next){
 
 exports.logOut = function( req, res, next ){
     //todo: fix logout - doen't work
+    req.session.creds = null;
     req.sessionUser = null;
     req.userSessionId = null;
     next();

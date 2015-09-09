@@ -10,12 +10,12 @@ var sessionLoginDao = require('../Login/User');
 
 function login (req, res) {
 
-    var creds = req.creds;
-    sessionLoginDao.User.storeAndSignUser({email: creds.email}).then(
+    var email = req.creds;
+    sessionLoginDao.User.storeAndSignUser({email: email/*, pass: creds.password*/}).then(
         function success(user) {
 
             req.session.userId = user._id.toString();
-            res.status(200).send({msg: 'Hey ' + creds.email + ' you are currently logged in to the particle cloud'});
+            res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
         }, function error(err) {
             res.status(404).send(err);

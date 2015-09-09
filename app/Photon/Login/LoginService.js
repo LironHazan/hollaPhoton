@@ -5,7 +5,6 @@
 'use strict';
 angular.module('Photon').service('LoginService', function ( $http ) {
 
-    //todo: save data in cookie so it will be persist
 
     var cache = null;
 
