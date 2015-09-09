@@ -11,7 +11,7 @@ angular.module('Photon').service('LoginService', function ( $http ) {
 
     function login(userDetails){
         cache = null;
-        return $http.post('/backend/led/login', userDetails);
+        return $http.post('/backend/session/login', userDetails);
     }
 
     function storeLoginDetails(creds){

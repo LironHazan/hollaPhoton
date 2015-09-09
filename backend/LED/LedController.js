@@ -5,13 +5,11 @@
 var express = require('express');
 var router = express.Router();
 var ledDao = require('./LedDoa');
-var loginToParicale = require('../Login/LoginToParticle');
 var spark = require('spark');
 var _ = require("lodash");
-var sessionLoginDao = require('../Login/User');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 
-//todo: may need to change to 'add or update'
+
 var timestamp = new Date().getTime().toString();
 var credsCache = null;
 
@@ -50,58 +48,25 @@ function updateLedService(req, res){
 }
 router.get('/update', updateLedService);
 
-/*function login(req, res){
-    var creds = req.body;
-    credsCache = creds;
-
-    loginToParicale.loginToSpark(creds).then(function success(token){
-        res.send({msg: 'Hey '+ creds.email + ' you are currently logged in to the particle cloud'});
-    }, function error(err){
-        res.status(404).send(err.message);
-    });
-}
-router.post('/login', login);*/
-
-function login (req, res) {
-
-    var creds = req.body;
-    credsCache = creds;
-
-    sessionLoginDao.User.storeAndSignUser({email: creds.email}).then(
-        function success(user) {
-
-            req.session.userId = user._id.toString();
-
-            loginToParicale.loginToSpark(creds).then(function success(token) {
-                res.status(200).send({msg: 'Hey ' + creds.email + ' you are currently logged in to the particle cloud'});
-
-            }, function error(err) {
-                res.status(404).send(err.message);
-            });
-
-        }, function error(err) {
-            res.status(404).send(err);
-        }
-    );
-
-}
-router.post('/login', login);
-
-function parseListOfDevices(devices){
-
-
-
-}
-
+// list of devices flow
 function getListOfDevices(req, res){
 
-    if(credsCache){
-        spark.login({ username: credsCache.email, password: credsCache.passwd}).then(function success(){
+    if(req.creds){ // instead getUserCreds no need for cache
+        spark.login({ username: req.creds.email, password: req.creds.passwd}).then(function success(){
             spark.listDevices().then(function(devices){
                 var listOfDevices = [];
                 _.each(devices, function(device){
                     var _device = {id:device.id, name:device.name, connected:device.connected, lastApp:device.lastApp };
                     listOfDevices.push(_device);
+
+                    // get var example
+                   /* device.getVariable('volts', function(err, data) {
+                        if (err) {
+                            console.log('An error occurred while getting attrs:', err);
+                        } else {
+                            console.log('Device attr retrieved successfully:', data);
+                        }
+                    });*/
 
                 });
                 res.send({listOfDevices:listOfDevices});
@@ -117,7 +82,6 @@ function getListOfDevices(req, res){
 
 
 }
-router.get('/listDevices', sessionLoginMiddleware.getUserSessionId, getListOfDevices);
-
+router.get('/listDevices', sessionLoginMiddleware.getUserAndCreds, getListOfDevices);
 
 module.exports = router;
