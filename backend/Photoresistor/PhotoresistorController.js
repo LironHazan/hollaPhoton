@@ -5,12 +5,13 @@
 'use strict';
 var express = require('express');
 var router = express.Router();
-//var ledDao = require('./LedDoa');
+var photoresistorDao = require('./PhotoresistorDao');
 var spark = require('spark');
 var _ = require("lodash");
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('PhotoresistorController');
 
+var timestamp = new Date().getTime().toString();
 
 function getPhotoresistorMetrics(req, res){
     var device = req.body;
@@ -22,6 +23,13 @@ function getPhotoresistorMetrics(req, res){
                 if (err) {
                     res.status(404).send({msg:err});
                 } else {
+                    var savedData = {timestamp:timestamp, deviceId:device.id, volts:data.result};
+                    photoresistorDao.Photoresistor.createEntryPerDevice(savedData).then(function success(doc){
+                        logger.info('entry was saved: ' + JSON.stringify(doc));
+                    }, function err(err){
+                        logger.error('could not save entry: ' ,  err);
+                    });
+
                     res.status(200).send({data:data});
                 }
             });

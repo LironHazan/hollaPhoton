@@ -4,15 +4,11 @@
 
 var express = require('express');
 var router = express.Router();
-var ledDao = require('./LedDoa');
+var ledDao = require('./LedDao');
 var spark = require('spark');
 var _ = require("lodash");
-var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('LedController');
 
-
-var timestamp = new Date().getTime().toString();
-var credsCache = null;
 
 function addNewLedService(req, res){
 
@@ -48,32 +44,5 @@ function updateLedService(req, res){
 
 }
 router.get('/update', updateLedService);
-
-// list of devices flow
-function getListOfDevices(req, res){
-
-    if(req.creds){ // instead getUserCreds no need for cache
-        var passwd = sessionLoginMiddleware.getUserPass();
-        spark.login({ username: req.creds, password: passwd}).then(function success(){
-            spark.listDevices().then(function(devices){
-                var listOfDevices = [];
-                _.each(devices, function(device){
-                    var _device = {id:device.id, name:device.name, connected:device.connected, lastApp:device.lastApp };
-                    listOfDevices.push(_device);
-                });
-                res.send({listOfDevices:listOfDevices});
-            });
-        }, function error(err){
-            logger.error(err);
-        });
-
-
-    }else{
-        res.status(401).send({msg:'pls login'});
-    }
-
-
-}
-router.get('/listDevices', sessionLoginMiddleware.getUserAndCreds, getListOfDevices);
 
 module.exports = router;

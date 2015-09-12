@@ -3,19 +3,27 @@
  */
 'use strict';
 
-angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, $modal, DevicesService, LoginService, SensorFlowService) {
+angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, $modal, DevicesService, LoginService,toastr, /*SensorFlowService,*/ $http, $state) {
+
+    var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
     $rootScope.globals = {
-        creds : {} //todo: check why in refresh the state wont be saved
+        creds : {}
     };
     $scope.devicesList = [];
     $scope.logOut =true;
+    $scope.volts = 0;
+    $scope.deviceName = "deviceName";
+
+    $scope.$state = $state;
 
     LoginService.getLoggedUser().then(function (data) {
         $scope.greeting = 'Hello! you are connected as: ' + data.data.name;
         $scope.loggedIn = true;
 
     });
+
+
 
     //fetch devices on refresh (user details are on session)
     DevicesService.getListDevices().then(function success(list){
@@ -26,21 +34,28 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         $scope.devicesList = list.data.listOfDevices;
         if( $scope.devicesList.length === 0){
             $scope.emptyList = true;
+
         }
         _.each($scope.devicesList, function(device){
             if(device.connected){
 
-                //todo: put in a function outside and fix ret result
-                SensorFlowService.getPhotoresistorVolts(device).then(function success(data){
-                $scope.volts = parseFloat(data.data.result);// parseFloat(data.data.result).toFixed(2);
-                    if(data.status===200){
 
-                    }
 
-             /*       volts = parseFloat(data.result);
+                //_device = device;
 
-                    volts = volts.toFixed(2);*/
-                });
+              /*  setInterval(function(){
+                    $scope.$apply(function() {
+                        getReading(device).then(function success(data){
+                            if(data.status===200){
+                                var volts = parseFloat(data.data.data.result);
+                                volts = volts.toFixed(2);
+                                $scope.volts = volts;
+
+                            }
+                        });
+                    });
+                }, 3000);*/
+
             }
         });
 
@@ -80,9 +95,10 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         $scope.loginBtn = false;
         $scope.logOut =true;
         $scope.greeting = 'Hello! you are connected as: ' + creds.email;
+        DevicesService.getListDevices();
     });
 
-    $scope.getDevices = function(){
+   /* $scope.getDevices = function(){
         DevicesService.getListDevices().then(function success(list){
             $scope.devicesList = list.data.listOfDevices;
             if( $scope.devicesList.length === 0){
@@ -91,7 +107,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         }, function error(err){
             console.log(err);
         });
-    };
+    };*/
 
     $scope.logout = function(){
 
@@ -111,15 +127,54 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         });
     };
 
+    //var device;
+
+    function getReading(device){
+        return  $http.post('/backend/photoresistor/volts', {id: device})
+    }
+
+    $scope.getId = function(){
+     var deviceID =  $("#device-id").text();
+       // return deviceID.trim();
+        deviceID = deviceID.trim();
+        var getVolts = setInterval(function (){
+            $scope.$apply(function() {
+                getReading(deviceID).then(function success(data){
+                    if(data.status===200){
+                        var volts = parseFloat(data.data.data.result);
+                        volts = volts.toFixed(2);
+                        $scope.volts = volts;
+
+                    }
+                }, function error(err){
+                    toastr.error(err.data, 'Error While Trying To read volts, Device is not connected' , toastrOpts);
+
+                });
+            });
+        }, 3000);
+
+        //clearInterval(getVolts);
+        /*
+                DevicesService.getDevice(deviceID).then(function success(data){
+                    setInterval(function(){
+                        $scope.$apply(function() {
+                            getReading(deviceID).then(function success(data){
+                                if(data.status===200){
+                                    var volts = parseFloat(data.data.data.result);
+                                    volts = volts.toFixed(2);
+                                    $scope.volts = volts;
+
+                                }
+                            });
+                        });
+                    }, 3000);
+                }, function error(){
+
+                });
+        */
+
+    };
 
 
-    $scope.value1 = 42;
-    $scope.value2 = 42;
-    setInterval(function(){
-        $scope.$apply(function() {
-            $scope.value1 = getRandomInt(10, 90);
-            $scope.value2 = getRandomInt(10, 90);
-        });
-    }, 1000);
 
 });

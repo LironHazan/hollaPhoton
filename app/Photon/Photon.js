@@ -17,10 +17,19 @@ angular.module('Photon', [
 
 angular.module('Photon').config(function($stateProvider) {
 
-    $stateProvider.state('Photon1', {
+    $stateProvider.state('Photon', {
         url: '/home',
         templateUrl: 'Photon/Photon.html',
         controller: 'PhotonCtrl'
+    }).state('Photon.graphs', {
+        url: '/graphs',
+        templateUrl: 'Photon/Graphs/graphs.html'
     });
+
+/*    $routeProvider
+        .when('/graphs/', {
+            templateUrl: 'Photon/Graphs/graphs.html'
+        });*/
+
 
 });
