@@ -1,25 +1,31 @@
 'use strict';
-//var services = require('../Services');
+
 var user = require('./User');
 var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger('SessionController');
 var _ = require('lodash');
 var middleware = require('./SessionLoginMiddleware');
+var sessionLoginDao = require('../Login/User');
 
+function login (req, res) {
 
-/**
- * @module SessionController
- * @description
- * handles session activities
- *
- * when the client sends one of the following requests (GET/POST) should include session
- * in the url: http://localhost:3000/session/isLoggedIn
- */
+    var email = req.creds;
+    sessionLoginDao.User.storeAndSignUser({email: email/*, pass: creds.password*/}).then(
+        function success(user) {
 
+            req.session.userId = user._id.toString();
+            res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
+        }, function error(err) {
+            res.status(404).send(err);
+        }
+    );
 
-router.get('/user',middleware.loggedIn, function(req,res){
+}
+router.post('/login', middleware.login, login);
+
+router.get('/user',middleware.getUserAndCreds, function(req,res){
     res.status(200).send({name: req.sessionUser.email});
 });
 

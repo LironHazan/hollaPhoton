@@ -8,19 +8,38 @@
     </div>
 
     <div class="container">
-       <a ng-click="getDevices()"> <h5>Click to Refresh List of Connected Devices: </h5> </a>
+
+       <div> <h5> List of Connected Devices: </h5> </div>
+
         <h6  ng-show="emptyList"> No Devices </h6>
-            <table>
+            <table class="table table-striped">
+                <tr class="info">
+                    <th> Photon Id </th>
+                    <th> Photon Name </th>
+                    <th> Connected </th>
+                </tr>
                 <tr ng-repeat="device in devicesList">
-                    <td> ID : {{ device.id }} </td>
-                    <td> Name : {{ device.name }} </td>
-                    <td> Connected : {{ device.connected }} </td>
+                    <td id="device-id" ng-click="getId()" title="Click to see graphs"> <a href='#/graphs'> {{device.id}}</a> </td>
+                    <td> {{device.name}} </td>
+                    <td> {{device.connected}} </td>
                   <!--  <td>Last App: {{ device.lastApp }} </td>-->
                 </tr>
             </table>
 
         </div>
     </div>
+
+<div class="container">
+    <div class="col-lg-3">
+        <just-gage id="volts-gauge" min=0 max=3.3 value="volts" title="Photoresistor {{deviceName}}"></just-gage>
+    </div>
+</div>
+
+
+<div id="gauge"></div>
+
+<div ui-view></div>
+
 </div>
 
 

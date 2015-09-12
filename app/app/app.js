@@ -10,7 +10,8 @@ angular
         'ngSanitize',
         'ngTouch',
         'ui.bootstrap',
-        'Photon'
+        'Photon',
+        'ngJustGage'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise('/home');

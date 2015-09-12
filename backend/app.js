@@ -8,6 +8,8 @@ var config = require('./conf');
 
 var leds = require('./LED');
 var session = require('./Login');
+var photoresistor = require('./Photoresistor');
+var devices = require('./Devices');
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -29,6 +31,9 @@ app.use(require('cookie-session')({
 var router = express.Router();
 router.use('/led', leds.controller); // all led routes goes throw /backend/led/
 router.use('/session', session.controller);
+router.use('/photoresistor', photoresistor.controller);
+router.use('/devices', devices.controller);
+
 /***********************************************************************
  *              Photon Routes Stop
  **********************************************************************/
