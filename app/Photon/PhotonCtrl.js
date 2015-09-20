@@ -127,6 +127,36 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         });
     };
 
+    $scope.data = [ ];
+
+    var getDataForLineChart = function(){
+        $http.get('/backend/photoresistor/lastHour').then(function success(data){
+            $scope.data = data.data;
+        })
+    };
+
+    getDataForLineChart();
+
+    // x= timestamp y = volts
+/*        {x: 0, value: 4},
+        {x: 1, value: 8},
+        {x: 2, value: 15},
+        {x: 3, value: 16},
+        {x: 4, value: 23},
+        {x: 5, value: 42}*/
+
+    $scope.options = {
+        series: [
+            {y: 'value', color: 'steelblue', thickness: '2px', type: 'column', striped: true, label: 'Volts'}
+        ],
+        lineMode: 'linear',
+        tension: 0.7,
+        tooltip: {mode: 'scrubber', formatter: function(x, y, series) {return 'volts';}},
+        drawLegend: true,
+        drawDots: true,
+        hideOverflow: false,
+        columnsHGap: 7
+    };
     //var device;
 
     function getReading(device){

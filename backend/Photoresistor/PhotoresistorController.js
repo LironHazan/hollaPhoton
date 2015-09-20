@@ -11,8 +11,6 @@ var _ = require("lodash");
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('PhotoresistorController');
 
-var timestamp = new Date().getTime().toString();
-
 function getPhotoresistorMetrics(req, res){
     var device = req.body;
     if(req.creds){
@@ -23,7 +21,16 @@ function getPhotoresistorMetrics(req, res){
                 if (err) {
                     res.status(404).send({msg:err});
                 } else {
-                    var savedData = {timestamp:timestamp, deviceId:device.id, volts:data.result};
+                    var timestamp = new Date().getTime();//.toString();
+                    var date = new Date();
+                    var day = date.getDate();
+                    var month = date.getMonth()+1;
+                    var year = date.getFullYear();
+                    var hour = date.getHours();
+                    var minutes = date.getMinutes();
+                    var time = day + '/' + month + '/' + year + ' | ' + hour + ':' + minutes;
+
+                    var savedData = {timestamp:timestamp, time:time, deviceId:device.id, volts:data.result};
                     photoresistorDao.Photoresistor.createEntryPerDevice(savedData).then(function success(doc){
                         logger.info('entry was saved: ' + JSON.stringify(doc));
                     }, function err(err){
@@ -46,5 +53,38 @@ function getPhotoresistorMetrics(req, res){
 
 }
 router.post('/volts', sessionLoginMiddleware.getUserAndCreds, getPhotoresistorMetrics);
+
+
+function getLastHourData(req, res){
+    var date = new Date().getTime();
+
+    photoresistorDao.Photoresistor.findEntries({
+        timestamp: { // 60 minutes ago (from now)
+            $gt: date - 1000 * 60 * 60
+        }
+    }).then(function success(data){
+
+        var newData = _.uniq(data, 'time');
+        var sortedData  = _.sortByOrder(newData, ['time'], ['asc', 'desc']);
+
+        /* should send to line chart following structure:
+         {x: 0, value: 4},
+         {x: 1, value: 8},
+         {x: 2, value: 15},
+         {x: 3, value: 16},
+         {x: 4, value: 23},
+         {x: 5, value: 42}
+         */
+
+        var sendData = [];
+        _.each(sortedData, function(d){
+            sendData.push({x:d.timestamp, value:d.volts})
+        });
+
+        res.status(200).send(sendData);
+    });
+}
+
+router.get('/lastHour', /*sessionLoginMiddleware.getUserAndCreds,*/ getLastHourData);
 
 module.exports = router;

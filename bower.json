@@ -17,6 +17,7 @@
     "fontawesome": "~4.3.0",
     "json3": "^3.3.0",
     "lodash": "~3.3.0",
+    "n3-line-chart": "~1.1.12",
     "spark": "~1.0.0"
   },
   "devDependencies": {
