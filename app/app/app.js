@@ -11,7 +11,8 @@ angular
         'ngTouch',
         'ui.bootstrap',
         'Photon',
-        'ngJustGage'
+        'ngJustGage',
+        'n3-line-chart'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise('/home');
