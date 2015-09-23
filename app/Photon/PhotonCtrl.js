@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, $modal, DevicesService, LoginService,toastr, /*SensorFlowService,*/ $http, $state) {
+angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, $modal, DevicesService, LoginService,toastr, /*SensorFlowService,*/ $http, $state, $log) {
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -11,15 +11,63 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         creds : {}
     };
     $scope.devicesList = [];
-    $scope.logOut =true;
+    $scope.logOut =false;
     $scope.volts = 0;
     $scope.deviceName = "deviceName";
+
+  /*  $scope.tabs = [
+        { title:'Charts', content:'Dynamic content 1' }
+    ];*/
+
+//for dropdown
+    $scope.devices = [];
+
+    $scope.status = {
+        isopen: false
+    };
+
+    $scope.toggled = function(open) {
+      //  $log.log('Dropdown is now: ', open);
+    };
+
+    $scope.toggleDropdown = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
+    };
+
+    $scope.getSelectedDevice = function(device){
+        $log.log('device is now: ', device);
+        $http.post('/backend/devices/device-id', {name:device}).then(function success(data){
+            var id = data.data.id;
+            $log.log('device id is now: ', id);
+            var getVolts = setInterval(function (){
+                $scope.$apply(function() {
+                    getReading(id).then(function success(data){
+                        if(data.status===200){
+                            var volts = parseFloat(data.data.data.result);
+                            volts = volts.toFixed(2);
+                            $scope.volts = volts;
+
+                        }
+                    }, function error(err){
+                        toastr.error(err.data, 'Error While Trying To read volts, Device is not connected' , toastrOpts);
+
+                    });
+                });
+            }, 3000);
+
+        });
+    };
 
     $scope.$state = $state;
 
     LoginService.getLoggedUser().then(function (data) {
-        $scope.greeting = 'Hello! you are connected as: ' + data.data.name;
+        $scope.greeting = 'Hey! you are connected as: ' + data.data.name;
         $scope.loggedIn = true;
+        //$scope.showGauge = true;
+       // $scope.showChart = true;
+        $scope.devicesTable = true;
 
     });
 
@@ -30,6 +78,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
         $scope.loginBtn = false;
         $scope.logOut =true;
+        $scope.tabset = true;
 
         $scope.devicesList = list.data.listOfDevices;
         if( $scope.devicesList.length === 0){
@@ -37,6 +86,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
         }
         _.each($scope.devicesList, function(device){
+            $scope.devices.push(device.name);
             if(device.connected){
 
 
@@ -95,24 +145,42 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         $scope.loginBtn = false;
         $scope.logOut =true;
         $scope.greeting = 'Hello! you are connected as: ' + creds.email;
-        DevicesService.getListDevices();
-    });
-
-   /* $scope.getDevices = function(){
+        $scope.tabset = true;
         DevicesService.getListDevices().then(function success(list){
+
             $scope.devicesList = list.data.listOfDevices;
             if( $scope.devicesList.length === 0){
                 $scope.emptyList = true;
+
             }
+            _.each($scope.devicesList, function(device){
+                $scope.devices.push(device.name);
+            });
+          //  $scope.showGauge = true;
+          //  $scope.showChart = true;
+            $scope.devicesTable = true;
+
+
         }, function error(err){
             console.log(err);
+            $scope.loginBtn = true;
+            $scope.loggedIn = false;
         });
-    };*/
+
+
+
+    });
+
 
     $scope.logout = function(){
 
         LoginService.logout().then(function success(data){
             //todo: this is ugly - fix it
+            $scope.showGauge = false;
+            $scope.showChart = false;
+            $scope.devicesTable = false;
+            $scope.tabset = false;
+
             DevicesService.getListDevices().then(function success(list){
 
             }, function error(err){
@@ -137,14 +205,6 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
     getDataForLineChart();
 
-    // x= timestamp y = volts
-/*        {x: 0, value: 4},
-        {x: 1, value: 8},
-        {x: 2, value: 15},
-        {x: 3, value: 16},
-        {x: 4, value: 23},
-        {x: 5, value: 42}*/
-
     $scope.options = {
         series: [
             {y: 'value', color: 'steelblue', thickness: '2px', type: 'column', striped: true, label: 'Volts'}
@@ -163,7 +223,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         return  $http.post('/backend/photoresistor/volts', {id: device})
     }
 
-    $scope.getId = function(){
+/*    $scope.getId = function(){
      var deviceID =  $("#device-id").text();
        // return deviceID.trim();
         deviceID = deviceID.trim();
@@ -184,7 +244,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         }, 3000);
 
         //clearInterval(getVolts);
-        /*
+        *//*
                 DevicesService.getDevice(deviceID).then(function success(data){
                     setInterval(function(){
                         $scope.$apply(function() {
@@ -201,9 +261,9 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
                 }, function error(){
 
                 });
-        */
+        *//*
 
-    };
+    };*/
 
 
 
