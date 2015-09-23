@@ -1,7 +1,7 @@
 @import "../Photon/_photon";
 
 td {
-  cursor: pointer;
+ // cursor: pointer;
 
 }
 
@@ -29,5 +29,10 @@ td {
     box-shadow: 0 1px 1px rgba(255,255,255,0.6), inset 0 1px 1px 1px rgba(44,74,103,0.36) ;
   }
 
+}
+
+body {
+
+  //background-color: lightgray;
 }
 

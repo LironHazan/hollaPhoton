@@ -7,6 +7,7 @@ var spark = require('spark');
 var _ = require("lodash");
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('DevicesController');
+var deviceDao = require('./DevicesDao');
 
 function getDeviceById(req, res){
     var device = req.body;
@@ -42,6 +43,17 @@ function getListOfDevices(req, res){
                 _.each(devices, function(device){
                     var _device = {id:device.id, name:device.name, connected:device.connected, lastApp:device.lastApp };
                     listOfDevices.push(_device);
+                    deviceDao.Devices.findDevice({id:device.id}).then(function success(data){
+                        if(data.length === 0){
+                            deviceDao.Devices.createDeviceEntry(_device).then(function success(){
+                                logger.info('saved new device');
+                            }, function error(){
+                                logger.error('error saving device')
+                            });
+                        }
+                    }, function error(){
+                        logger.error('error finding device');
+                    });
                 });
                 res.send({listOfDevices:listOfDevices});
             });
@@ -58,5 +70,22 @@ function getListOfDevices(req, res){
 }
 router.get('/listDevices', sessionLoginMiddleware.getUserAndCreds, getListOfDevices);
 
+function getSelectedDeviceId (req, res){
+    if(req.body.name){
+        deviceDao.Devices.findDevice({name:req.body.name}).then(function success(data){
+            if(data.length > 0){
+                var id = data[0].id;
+                res.status(200).send({id:id});
+            }
+        }, function error(){
+            logger.error('error finding device');
+            res.status(404).send({msg:'not found'});
+        });
+
+    }
+
+}
+
+router.post('/device-id', getSelectedDeviceId);
 
 module.exports = router;
