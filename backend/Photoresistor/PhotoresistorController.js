@@ -28,7 +28,13 @@ function getPhotoresistorMetrics(req, res){
                     var year = date.getFullYear();
                     var hour = date.getHours();
                     var minutes = date.getMinutes();
-                    var time = day + '/' + month + '/' + year + ' | ' + hour + ':' + minutes;
+/*                    if(hour < 10){
+                        hour = '0'+hour;
+                    }
+                    if(minutes <10){
+                        minutes = '0'+minutes;
+                    }*/
+                    var time = year + '-' + month + '-' + day ;//+'T' + hour + ':' + minutes+':00x ';
 
                     var savedData = {timestamp:timestamp, time:time, deviceId:device.id, volts:data.result};
                     photoresistorDao.Photoresistor.createEntryPerDevice(savedData).then(function success(doc){
@@ -78,7 +84,10 @@ function getLastHourData(req, res){
 
         var sendData = [];
         _.each(sortedData, function(d){
-            sendData.push({x:d.timestamp, value:d.volts})
+            //d.timestamp
+            var newDate = d.time;//new Date(d.time);
+
+            sendData.push({x:newDate/*d.timestamp*/, value:d.volts})
         });
 
         res.status(200).send(sendData);

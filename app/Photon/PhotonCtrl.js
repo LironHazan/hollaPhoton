@@ -65,9 +65,9 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     LoginService.getLoggedUser().then(function (data) {
         $scope.greeting = 'Hey! you are connected as: ' + data.data.name;
         $scope.loggedIn = true;
-        //$scope.showGauge = true;
-       // $scope.showChart = true;
+        $scope.showChart = true;
         $scope.devicesTable = true;
+        $scope.showGauge = true;
 
     });
 
@@ -76,9 +76,11 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     //fetch devices on refresh (user details are on session)
     DevicesService.getListDevices().then(function success(list){
 
-        $scope.loginBtn = false;
-        $scope.logOut =true;
+        //$scope.loginBtn = false;
+        //$scope.logOut =true;
         $scope.tabset = true;
+        $scope.showGauge = true;
+
 
         $scope.devicesList = list.data.listOfDevices;
         if( $scope.devicesList.length === 0){
@@ -145,8 +147,12 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         $scope.loginBtn = false;
         $scope.logOut =true;
         $scope.greeting = 'Hello! you are connected as: ' + creds.email;
+        $scope.showGauge = true;
         $scope.tabset = true;
+
         DevicesService.getListDevices().then(function success(list){
+
+            $scope.showChart = true;
 
             $scope.devicesList = list.data.listOfDevices;
             if( $scope.devicesList.length === 0){
@@ -156,8 +162,6 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
             _.each($scope.devicesList, function(device){
                 $scope.devices.push(device.name);
             });
-          //  $scope.showGauge = true;
-          //  $scope.showChart = true;
             $scope.devicesTable = true;
 
 
@@ -199,13 +203,31 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
     var getDataForLineChart = function(){
         $http.get('/backend/photoresistor/lastHour').then(function success(data){
-            $scope.data = data.data;
+
+
+                var timeset = [];
+                var entry = {};
+            _.each(data.data, function(date){
+                entry.x =  new Date(date.x);
+                entry.value = date.value;
+                timeset.push(entry);
+            });
+
+            $scope.data = timeset;
+
         })
     };
 
     getDataForLineChart();
 
     $scope.options = {
+        axes: {
+            x: {
+                key: "x",
+                type: "date"
+            },
+            y: {type: "linear"}
+        },
         series: [
             {y: 'value', color: 'steelblue', thickness: '2px', type: 'column', striped: true, label: 'Volts'}
         ],

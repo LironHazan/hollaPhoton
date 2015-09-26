@@ -417,15 +417,15 @@ module.exports = function (grunt) {
                 }, {
                     'expand' : true,
                     'cwd' : '.',
-                    'src' : ['package.json','server.js', 'logs','backend/**', 'build/**', '!build/vagrant/**','!backend/conf/dev/**'],
+                    'src' : ['package.json','server','backend/**','!backend/conf/dev/**'],
                     'dest' : '<%= yeoman.dist %>'
-                },
-                    {
+                }
+                   /* {
                         'expand' : true,
                         'cwd' : 'bower_components/ace-builds/src-min-noconflict',
                         src: ['theme-chrome.js ','mode-yaml.js', 'mode-json.js'],
                         dest: '<%= yeoman.dist %>'
-                    }]
+                    }*/]
             },
             artifacts : {
                 expand: true,
@@ -473,9 +473,9 @@ module.exports = function (grunt) {
                 'compass'
             ],
             dist: [
-                'compass:dist',
-               'imagemin',
-                'svgmin'
+                'compass:dist'
+               //'imagemin',
+               // 'svgmin'
             ]
         },
 
