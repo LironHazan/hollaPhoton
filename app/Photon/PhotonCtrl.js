@@ -201,14 +201,17 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
     $scope.data = [ ];
 
+
     var getDataForLineChart = function(){
         $http.get('/backend/photoresistor/lastHour').then(function success(data){
 
 
                 var timeset = [];
-                var entry = {};
+
             _.each(data.data, function(date){
-                entry.x =  new Date(date.x);
+                var entry = {};
+               // var format = d3.time.format("%H:%M");
+                entry.x =  new Date(date.x);//format(new Date(date.x))
                 entry.value = date.value;
                 timeset.push(entry);
             });
@@ -219,12 +222,15 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     };
 
     getDataForLineChart();
+    $scope.getLineChartData = function(){
+        getDataForLineChart();
+    };
 
     $scope.options = {
         axes: {
             x: {
                 key: "x",
-                type: "date"
+                type: "date"//"date" //linear
             },
             y: {type: "linear"}
         },

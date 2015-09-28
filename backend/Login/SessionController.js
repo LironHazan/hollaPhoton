@@ -18,6 +18,7 @@ function login (req, res) {
             res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
         }, function error(err) {
+            logger.error('Error: ' +err);
             res.status(404).send(err);
         }
     );
