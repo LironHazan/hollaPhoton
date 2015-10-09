@@ -6,7 +6,7 @@ var router = express.Router();
 var spark = require('spark');
 var _ = require("lodash");
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
-var logger = require('log4js').getLogger('DevicesController');
+var logger = require('log4js').getLogger('aura');
 var deviceDao = require('./DevicesDao');
 
 function getDeviceById(req, res){

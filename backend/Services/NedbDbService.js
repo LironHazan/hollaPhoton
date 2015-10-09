@@ -3,7 +3,7 @@
  * @module NedbDbService
  * DbService implementation with nedb
  */
-//var logger = require('log4js').getLogger('NedbDbService');
+//var logger = require('log4js').getLogger('aura');
 var Datastore = require('nedb');
 var db = {};
 var path = require('path');

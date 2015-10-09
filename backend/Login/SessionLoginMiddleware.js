@@ -4,7 +4,7 @@
  * @module SessionMiddleware
  */
 var user = require('./User');
-var logger = require('log4js').getLogger('SessionMiddlewares');
+var logger = require('log4js').getLogger('aura');
 var loginToParicale = require('../Login/LoginToParticle');
 
 var userPass = null;

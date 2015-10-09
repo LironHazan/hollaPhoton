@@ -9,7 +9,7 @@ var photoresistorDao = require('./PhotoresistorDao');
 var spark = require('spark');
 var _ = require("lodash");
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
-var logger = require('log4js').getLogger('PhotoresistorController');
+var logger = require('log4js').getLogger('aura');
 
 function getPhotoresistorMetrics(req, res){
     var device = req.body;

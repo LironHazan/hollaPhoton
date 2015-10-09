@@ -7,7 +7,7 @@ var router = express.Router();
 var ledDao = require('./LedDao');
 var spark = require('spark');
 var _ = require("lodash");
-var logger = require('log4js').getLogger('LedController');
+var logger = require('log4js').getLogger('aura');
 
 
 function addNewLedService(req, res){
