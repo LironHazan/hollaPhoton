@@ -1,33 +1,6 @@
 @import "../Photon/Photon";
 
-.pageSwitch {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0px 10px;
-  color: inherit;
-  height: 50px;
-  width: auto;
-  min-width: 130px;
-  font-family: OpenSansSemiBold;
-  font-size: 16px;
-  line-height: 50px;
-  text-align: center;
-  color: white;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &.active {
-    color: #27d1c7;
-    background-color: #4c7097;
-    box-shadow: 0 1px 1px rgba(255,255,255,0.6), inset 0 1px 1px 1px rgba(44,74,103,0.36) ;
-  }
-
-}
-
 body {
 
-  //background-color: lightgray;
 }
 

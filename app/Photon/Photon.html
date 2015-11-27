@@ -1,14 +1,14 @@
 <div id="main-photon">
 
     <div id="aura-title">
-        <h6 class="col-xs-2"> <i class="fa fa-dashboard fa-3x"> AURA </i></h6>
+        <h6 class="col-xs-2"><i class="material-icons">dashboard</i> AURA </h6>
     </div>
 
     <div id="aura-heading" class="container-fluid">
         <div class="row">
-            <div class="col-xs-4"><h4> Filters Monitoring Dashboard</h4></div>
-            <div class="col-xs-6"> <h6 ng-show="loggedIn" >{{greeting}}  <a class="btn" ng-click="logout()">   Logout  </a> <i class="fa fa-sign-out"></i></h6></div>
-            <div class="col-xs-12"><button ng-show="loginBtn" class="btn-info" ng-click="open()"><i class="fa fa-lock"> Login</i></button></div>
+            <div ng-show= "false" class="col-xs-4"><h4> Filters Monitoring Dashboard</h4></div>
+            <div class="col-xs-6"> <h6 ng-show="loggedIn" >{{greeting}} <a class="label label-primary" ng-click="logout()">Logout </a>  </h6></div>
+            <div class="col-xs-12"><button ng-show="loginBtn" class="btn btn-raised btn-default" ng-click="open()"><i class="material-icons">lock</i> Login</button></div>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
 
                 <h6  ng-show="emptyList"> No Devices </h6>
                 <table class="table table-striped">
-                    <tr class="info">
+                    <tr>
                         <th> Device Id </th>
                         <th> Device Name </th>
                         <th> Connected </th>
