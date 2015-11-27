@@ -1,0 +1,12 @@
+.idea
+node_modules
+hollaPhoton.iml
+/backend/conf.json
+data
+bower_components
+myPhoton-0.0.0.tgz
+.sass-cache
+.tmp
+dist
+logs
+
