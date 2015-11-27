@@ -2,17 +2,19 @@
  * Created by liron on 9/2/15.
  */
 
+'user strict';
+
 var express = require('express');
 var router = express.Router();
 var ledDao = require('./LedDao');
-var spark = require('spark');
-var _ = require("lodash");
-var logger = require('log4js').getLogger('LedController');
+//var spark = require('spark');
+//var _ = require('lodash');
+//var logger = require('log4js').getLogger('aura');
 
 
-function addNewLedService(req, res){
+function addNewLedService(/*req,*/ res){
 
-    var mockedLedEntry = {timestamp:timestamp, deviceID:'a123', volume:3};
+    var mockedLedEntry = {timestamp:'1234', deviceID:'a123', volume:3};
 
     ledDao.Leds.createLedEntryPerDevice(mockedLedEntry).then(function success(doc){
         res.send({msg:'new added led: ' + JSON.stringify(doc)});
@@ -23,7 +25,7 @@ function addNewLedService(req, res){
 }
 router.get('/add', addNewLedService);
 
-function fetchLedService(req, res){
+function fetchLedService(/*req,*/ res){
 
     ledDao.Leds.findLedsEntries({deviceID:'a123'}).then(function success(doc){
         res.send({msg:'all led results: ' + JSON.stringify(doc)});

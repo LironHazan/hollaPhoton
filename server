@@ -12,6 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
+process.title='aura';
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -89,3 +90,7 @@ function onListening() {
   debug('Listening on ' + bind);
   console.log('listening to'+ bind);
 }
+
+process.on('uncaughtException', function (err) {
+  console.error('uncaught exception',err, err.stackTrace);
+});

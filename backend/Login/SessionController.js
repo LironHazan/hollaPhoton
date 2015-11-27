@@ -1,10 +1,10 @@
 'use strict';
 
-var user = require('./User');
+//var user = require('./User');
 var express = require('express');
 var router = express.Router();
-var logger = require('log4js').getLogger('SessionController');
-var _ = require('lodash');
+var logger = require('log4js').getLogger('aura');
+//var _ = require('lodash');
 var middleware = require('./SessionLoginMiddleware');
 var sessionLoginDao = require('../Login/User');
 
@@ -18,6 +18,7 @@ function login (req, res) {
             res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
         }, function error(err) {
+            logger.error('Error: ' +err);
             res.status(404).send(err);
         }
     );

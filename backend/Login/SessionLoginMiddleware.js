@@ -4,7 +4,7 @@
  * @module SessionMiddleware
  */
 var user = require('./User');
-var logger = require('log4js').getLogger('SessionMiddlewares');
+var logger = require('log4js').getLogger('aura');
 var loginToParicale = require('../Login/LoginToParticle');
 
 var userPass = null;
@@ -20,7 +20,7 @@ exports.login = function( req, res, next ){
     var creds = req.body;
     var adapter = new loginToParicale.LoginAdapter(creds);
     userPass = adapter.getCreds();
-    adapter.login().then(function success(token) {
+    adapter.login().then(function success(/*token*/) {
 
 
         req.creds = creds.email;

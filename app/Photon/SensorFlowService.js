@@ -3,7 +3,7 @@
  */
 
 'use strict';
-angular.module('Photon').service('SensorFlowService', function ( $http ) {
+angular.module('Photon').service('SensorFlowService', function ( /*$http*/ ) {
 
 
 });

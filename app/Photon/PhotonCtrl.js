@@ -13,7 +13,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     $scope.devicesList = [];
     $scope.logOut =false;
     $scope.volts = 0;
-    $scope.deviceName = "deviceName";
+    $scope.deviceName = 'deviceName';
 
   /*  $scope.tabs = [
         { title:'Charts', content:'Dynamic content 1' }
@@ -26,7 +26,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         isopen: false
     };
 
-    $scope.toggled = function(open) {
+    $scope.toggled = function(/*open*/) {
       //  $log.log('Dropdown is now: ', open);
     };
 
@@ -41,7 +41,8 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
         $http.post('/backend/devices/device-id', {name:device}).then(function success(data){
             var id = data.data.id;
             $log.log('device id is now: ', id);
-            var getVolts = setInterval(function (){
+          //  var getVolts =
+                setInterval(function (){
                 $scope.$apply(function() {
                     getReading(id).then(function success(data){
                         if(data.status===200){
@@ -178,62 +179,68 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
     $scope.logout = function(){
 
-        LoginService.logout().then(function success(data){
+        LoginService.logout().then(function success(/*data*/){
             //todo: this is ugly - fix it
             $scope.showGauge = false;
             $scope.showChart = false;
             $scope.devicesTable = false;
             $scope.tabset = false;
 
-            DevicesService.getListDevices().then(function success(list){
+            DevicesService.getListDevices().then(function success(/*list*/){
 
-            }, function error(err){
+            }, function error(/*err*/){
                 $scope.loginBtn = true;
                 $scope.logOut =false;
                 $scope.loggedIn = false;
-                $scope.devicesList = list.data.listOfDevices;
+              //  $scope.devicesList = list.data.listOfDevices;
             });
 
-        }, function err(err){
+        }, function err(/*err*/){
 
         });
     };
 
     $scope.data = [ ];
 
+
     var getDataForLineChart = function(){
         $http.get('/backend/photoresistor/lastHour').then(function success(data){
 
 
                 var timeset = [];
-                var entry = {};
+
             _.each(data.data, function(date){
-                entry.x =  new Date(date.x);
+                var entry = {};
+               // var format = d3.time.format('%H:%M');
+                entry.x =  new Date(date.x);//format(new Date(date.x))
                 entry.value = date.value;
                 timeset.push(entry);
             });
 
             $scope.data = timeset;
 
-        })
+        });
     };
 
     getDataForLineChart();
+    $scope.getLineChartData = function(){
+        getDataForLineChart();
+    };
 
     $scope.options = {
         axes: {
             x: {
-                key: "x",
-                type: "date"
+                key: 'x',
+                type: 'date'//'date' //linear
             },
-            y: {type: "linear"}
+            y: {type: 'linear'}
         },
         series: [
             {y: 'value', color: 'steelblue', thickness: '2px', type: 'column', striped: true, label: 'Volts'}
         ],
         lineMode: 'linear',
         tension: 0.7,
-        tooltip: {mode: 'scrubber', formatter: function(x, y, series) {return 'volts';}},
+        tooltip: {mode: 'scrubber', formatter: function(/*x, y, series*/) {return 'volts';}},
         drawLegend: true,
         drawDots: true,
         hideOverflow: false,
@@ -242,11 +249,11 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     //var device;
 
     function getReading(device){
-        return  $http.post('/backend/photoresistor/volts', {id: device})
+        return  $http.post('/backend/photoresistor/volts', {id: device});
     }
 
 /*    $scope.getId = function(){
-     var deviceID =  $("#device-id").text();
+     var deviceID =  $('#device-id').text();
        // return deviceID.trim();
         deviceID = deviceID.trim();
         var getVolts = setInterval(function (){

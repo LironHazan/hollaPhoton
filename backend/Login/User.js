@@ -4,7 +4,7 @@
 
 var AbstractModel = require('../Models/AbstractModel');
 var _ = require('lodash');
-var logger = require('log4js').getLogger('User');
+var logger = require('log4js').getLogger('aura');
 var Q = require('q');
 
 function User( data ){
@@ -23,7 +23,7 @@ User.storeAndSignUser = function (user) {
     var deffered = Q.defer();
 
     if (_.isEmpty(user.email)) {
-        callback('invalid user');
+      //  callback('invalid user');
         return;
     }
 

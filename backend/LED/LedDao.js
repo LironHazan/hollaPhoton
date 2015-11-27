@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var logger = require('log4js').getLogger('LedDoa');
+var logger = require('log4js').getLogger('aura');
 var AbstractModel = require('../Models/AbstractModel');
 var _ = require('lodash');
 var Q = require('q');

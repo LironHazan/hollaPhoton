@@ -7,9 +7,9 @@ var express = require('express');
 var router = express.Router();
 var photoresistorDao = require('./PhotoresistorDao');
 var spark = require('spark');
-var _ = require("lodash");
+var _ = require('lodash');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
-var logger = require('log4js').getLogger('PhotoresistorController');
+var logger = require('log4js').getLogger('aura');
 
 function getPhotoresistorMetrics(req, res){
     var device = req.body;
@@ -28,13 +28,13 @@ function getPhotoresistorMetrics(req, res){
                     var year = date.getFullYear();
                     var hour = date.getHours();
                     var minutes = date.getMinutes();
-/*                    if(hour < 10){
+                    if(hour < 10){
                         hour = '0'+hour;
                     }
                     if(minutes <10){
                         minutes = '0'+minutes;
-                    }*/
-                    var time = year + '-' + month + '-' + day ;//+'T' + hour + ':' + minutes+':00x ';
+                    }
+                    var time = year + '-' + month + '-' + day +'T' + hour + ':' + minutes;
 
                     var savedData = {timestamp:timestamp, time:time, deviceId:device.id, volts:data.result};
                     photoresistorDao.Photoresistor.createEntryPerDevice(savedData).then(function success(doc){
@@ -85,9 +85,9 @@ function getLastHourData(req, res){
         var sendData = [];
         _.each(sortedData, function(d){
             //d.timestamp
-            var newDate = d.time;//new Date(d.time);
+          //  var newDate = d.time;//new Date(d.time);
 
-            sendData.push({x:newDate/*d.timestamp*/, value:d.volts})
+            sendData.push({x:d.timestamp/*d.timestamp*/, value:d.volts});
         });
 
         res.status(200).send(sendData);
