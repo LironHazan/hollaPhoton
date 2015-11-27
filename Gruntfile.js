@@ -1,5 +1,5 @@
 // Generated on 2014-12-28 using generator-angular 0.10.0
-'use strict';
+'use strict' ;
 
 module.exports = function (grunt) {
 
@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
-    var pkg = grunt.file.readJSON( 'package.json'  );
+//    var pkg = grunt.file.readJSON( 'package.json'  );
 
     // Configurable paths for the application
     var appConfig = {
@@ -131,16 +131,16 @@ module.exports = function (grunt) {
         jshint: {
 
             options: {
-                jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
+                jshintrc: '.jshintrc'//,
+                //reporter: require('jshint-stylish')
             },
             all: {
-                src: [
-                    'Gruntfile.js',
-                    '<%= yeoman.app %>/**/*.js',
-                    '!*/**/conf_example.js'
-                ]
+                src: ['Gruntfile.js',
+                    '<%= yeoman.app %>/**/*.js']//,
+                   // 'backend/**/*.js']
             },
+
+            //,
             //test: {
             //    options: {
             //        jshintrc: 'test/spec/.jshintrc'
@@ -152,7 +152,8 @@ module.exports = function (grunt) {
                     jshintrc: 'backend/.jshintrc'
                 },
                 src: ['backend/**/*.js', '!**/conf_example.js']
-            }//,
+            }
+            //,
             //'backendTest' : {
             //    options: {
             //        jahintrc: 'test/backend/.jshintrc'
@@ -265,54 +266,6 @@ module.exports = function (grunt) {
                 assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
             }
         },
-
-        // The following *-min tasks will produce minified files in the dist folder
-        // By default, your `index.html`'s <!-- Usemin block --> will take care of
-        // minification. These next options are pre-configured if you do not wish
-        // to use the Usemin blocks.
-        // cssmin: {
-        //   dist: {
-        //     files: {
-        //       '<%= yeoman.dist %>/styles/main.css': [
-        //         '.tmp/styles/{,*/}*.css'
-        //       ]
-        //     }
-        //   }
-        // },
-        // uglify: {
-        //   dist: {
-        //     files: {
-        //       '<%= yeoman.dist %>/scripts/scripts.js': [
-        //         '<%= yeoman.dist %>/scripts/scripts.js'
-        //       ]
-        //     }
-        //   }
-        // },
-        // concat: {
-        //   dist: {}
-        // },
-
-        //imagemin: {
-        //    dist: {
-        //        files: [{
-        //            expand: true,
-        //            cwd: '<%= yeoman.app %>/images',
-        //            src: '{,*//*}*.{png,jpg,jpeg,gif}',
-        //            dest: '<%= yeoman.dist %>/images'
-        //        }]
-        //    }
-        //},
-
-        //svgmin: {
-        //    dist: {
-        //        files: [{
-        //            expand: true,
-        //            cwd: '<%= yeoman.app %>/images',
-        //            src: '{,*/}*.svg',
-        //            dest: '<%= yeoman.dist %>/images'
-        //        }]
-        //    }
-        //},
 
         htmlmin: {
             dist: {
@@ -429,27 +382,27 @@ module.exports = function (grunt) {
             }
         },
 
-        mochaTest: {
-            unit: {
-                options: {
-                    reporter: 'xunit-file'
-                },
-                src: ['test/backend/**/*.spec.js']
-            },
-            develop: {
-                options: {
-                    reporter: 'spec'
-                },
-                src: ['test/backend/**/*.spec.js']
-            }
-
-        },
+        //mochaTest: {
+        //    unit: {
+        //        options: {
+        //            reporter: 'xunit-file'
+        //        },
+        //        src: ['test/backend/**/*.spec.js']
+        //    },
+        //    develop: {
+        //        options: {
+        //            reporter: 'spec'
+        //        },
+        //        src: ['test/backend/**/*.spec.js']
+        //    }
+        //
+        //},
         /*jshint camelcase: false */
-        mocha_istanbul: {
-            coverage: {
-                'src' : 'test/backend/**/*.spec.js'
-            }
-        },
+        //mocha_istanbul: {
+        //    coverage: {
+        //        'src' : 'test/backend/**/*.spec.js'
+        //    }
+        //},
 
         // Run some tasks in parallel to speed up the build process
         concurrent: {
@@ -468,18 +421,18 @@ module.exports = function (grunt) {
         },
 
         // Test settings
-        karma: {
-            unit: {
-                configFile: 'test/karma.conf.js',
-                singleRun: true
-            },
-            debug: {
-                browsers: ['Chrome'],
-                reporters: ['spec'],
-                configFile: 'test/karma.conf.js',
-                singleRun: false
-            }
-        },
+        //karma: {
+        //    unit: {
+        //        configFile: 'test/karma.conf.js',
+        //        singleRun: true
+        //    },
+        //    debug: {
+        //        browsers: ['Chrome'],
+        //        reporters: ['spec'],
+        //        configFile: 'test/karma.conf.js',
+        //        singleRun: false
+        //    }
+        //},
         shell: {
             npmPack: {
                 command: 'npm pack',
@@ -551,27 +504,6 @@ module.exports = function (grunt) {
         'usemin',
         'htmlmin'
     ]);
-
-    //grunt.registerTask('analyze', [ 'jscpd', 'grunt-jscpd-reporter']);
-
-
-    //grunt.registerTask('bundle', 'A task that bundles all dependencies.', function () {
-    //    // "package" is a reserved word so it's abbreviated to "pkg"
-    //    var packagePath = appConfig.dist + '/package.json';
-    //    var pkg = grunt.file.readJSON( packagePath  );
-    //    // set the bundled dependencies to the keys of the dependencies property
-    //    pkg.bundledDependencies = Object.keys(pkg.dependencies);
-    //    // write back to package.json and indent with two spaces
-    //    grunt.file.write(  packagePath , JSON.stringify(pkg, undefined, '  '));
-    //});
-
-
-    //grunt.registerTask( 'writeVersion', function(  ){
-    //    //console.log(grunt.config.data.gitinfo.local );
-    //    grunt.file.write( appConfig.dist + '/version.json', JSON.stringify(
-    //        { 'version' : pkg.version, 'gitinfo' : grunt.config.data.gitinfo, timestamp : new Date().getTime(), hostname: require('os').hostname()  }
-    //    ) );
-    //});
 
 
     grunt.registerTask('default', [

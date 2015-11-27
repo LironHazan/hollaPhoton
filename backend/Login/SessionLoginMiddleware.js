@@ -20,7 +20,7 @@ exports.login = function( req, res, next ){
     var creds = req.body;
     var adapter = new loginToParicale.LoginAdapter(creds);
     userPass = adapter.getCreds();
-    adapter.login().then(function success(token) {
+    adapter.login().then(function success(/*token*/) {
 
 
         req.creds = creds.email;

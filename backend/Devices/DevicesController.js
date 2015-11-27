@@ -1,10 +1,11 @@
 /**
  * Created by liron on 9/12/15.
  */
+'use strict';
 var express = require('express');
 var router = express.Router();
 var spark = require('spark');
-var _ = require("lodash");
+var _ = require('lodash');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');
 var deviceDao = require('./DevicesDao');
@@ -48,7 +49,7 @@ function getListOfDevices(req, res){
                             deviceDao.Devices.createDeviceEntry(_device).then(function success(){
                                 logger.info('saved new device');
                             }, function error(){
-                                logger.error('error saving device')
+                                logger.error('error saving device');
                             });
                         }
                     }, function error(){

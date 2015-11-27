@@ -7,7 +7,7 @@ var express = require('express');
 var router = express.Router();
 var photoresistorDao = require('./PhotoresistorDao');
 var spark = require('spark');
-var _ = require("lodash");
+var _ = require('lodash');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');
 
@@ -85,9 +85,9 @@ function getLastHourData(req, res){
         var sendData = [];
         _.each(sortedData, function(d){
             //d.timestamp
-            var newDate = d.time;//new Date(d.time);
+          //  var newDate = d.time;//new Date(d.time);
 
-            sendData.push({x:d.timestamp/*d.timestamp*/, value:d.volts})
+            sendData.push({x:d.timestamp/*d.timestamp*/, value:d.volts});
         });
 
         res.status(200).send(sendData);
