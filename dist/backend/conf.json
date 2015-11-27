@@ -1,0 +1,4 @@
+{
+  "nedb":"/home/liron/dev/playPlace/myPhoton",
+  "sessionSecret" : "photon-secret"
+}

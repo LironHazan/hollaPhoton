@@ -1,0 +1,32 @@
+[2015-10-09 14:13:58.848] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/session/logout HTTP/1.1" 200 20 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:13:58.862] [ERROR] aura - ::ffff:127.0.0.1 - - "GET /backend/devices/listDevices HTTP/1.1" 401 12 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:14:30.557] [INFO] aura - user already exists
+[2015-10-09 14:14:30.559] [INFO] aura - ::ffff:127.0.0.1 - - "POST /backend/session/login HTTP/1.1" 200 83 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:14:31.837] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/devices/listDevices HTTP/1.1" 200 369 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:16:04.168] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/session/logout HTTP/1.1" 200 20 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:16:04.181] [ERROR] aura - ::ffff:127.0.0.1 - - "GET /backend/devices/listDevices HTTP/1.1" 401 12 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:16:20.227] [INFO] aura - user already exists
+[2015-10-09 14:16:20.228] [INFO] aura - ::ffff:127.0.0.1 - - "POST /backend/session/login HTTP/1.1" 200 83 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:16:21.414] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/devices/listDevices HTTP/1.1" 200 369 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:32:19.529] [TRACE] aura - got user. put user on request
+[2015-10-09 14:32:19.539] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/session/user HTTP/1.1" 200 30 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:32:19.542] [TRACE] aura - got user. put user on request
+[2015-10-09 14:32:19.618] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/photoresistor/lastHour HTTP/1.1" 200 2 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:32:21.329] [ERROR] aura - [Error: invalid_client]
+Error: invalid_client
+    at Spark.normalizeErr (/home/liron/dev/playPlace/myPhoton/node_modules/spark/lib/spark.js:117:11)
+    at null.<anonymous> (/home/liron/dev/playPlace/myPhoton/node_modules/spark/lib/spark.js:151:16)
+    at Request.self.callback (/home/liron/dev/playPlace/myPhoton/node_modules/spark/node_modules/request/request.js:198:22)
+    at emitTwo (events.js:87:13)
+    at Request.emit (events.js:172:7)
+    at Request.<anonymous> (/home/liron/dev/playPlace/myPhoton/node_modules/spark/node_modules/request/request.js:1073:14)
+    at emitOne (events.js:82:20)
+    at Request.emit (events.js:169:7)
+    at IncomingMessage.<anonymous> (/home/liron/dev/playPlace/myPhoton/node_modules/spark/node_modules/request/request.js:1019:12)
+    at emitNone (events.js:72:20)
+[2015-10-09 14:32:31.721] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/session/logout HTTP/1.1" 200 20 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:32:31.734] [ERROR] aura - ::ffff:127.0.0.1 - - "GET /backend/devices/listDevices HTTP/1.1" 401 12 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:32:52.688] [INFO] aura - user already exists
+[2015-10-09 14:32:52.691] [INFO] aura - ::ffff:127.0.0.1 - - "POST /backend/session/login HTTP/1.1" 200 83 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+[2015-10-09 14:32:52.708] [TRACE] aura - got user. put user on request
+[2015-10-09 14:32:53.909] [INFO] aura - ::ffff:127.0.0.1 - - "GET /backend/devices/listDevices HTTP/1.1" 200 369 "http://localhost:9000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"

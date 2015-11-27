@@ -1,12 +1,6 @@
 // Generated on 2014-12-28 using generator-angular 0.10.0
 'use strict';
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
 module.exports = function (grunt) {
 
     // Load grunt tasks automatically
@@ -51,15 +45,16 @@ module.exports = function (grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 }
             },
-            jsTest: {
-                files: ['test/spec/{,*/}*.js'],
-                tasks: ['newer:jshint:test', 'karma']
-            },
-            compass: {
+            //jsTest: {
+            //    files: ['test/spec/{,*/}*.js'],
+            //    tasks: ['newer:jshint:test', 'karma']
+            //},
+            sass: {
                 //files: ['<%= yeoman.app %>/{,*/}*.{scss,sass}'],
                 files: ['<%= yeoman.app %>/**/*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
+                tasks: ['sass:server', 'autoprefixer']
             },
+
             gruntfile: {
                 files: ['Gruntfile.js']
             },
@@ -146,24 +141,24 @@ module.exports = function (grunt) {
                     '!*/**/conf_example.js'
                 ]
             },
-            test: {
-                options: {
-                    jshintrc: 'test/spec/.jshintrc'
-                },
-                src: ['test/spec/**/*.js']
-            },
+            //test: {
+            //    options: {
+            //        jshintrc: 'test/spec/.jshintrc'
+            //    },
+            //    src: ['test/spec/**/*.js']
+            //},
             'backend': {
                 options: {
                     jshintrc: 'backend/.jshintrc'
                 },
                 src: ['backend/**/*.js', '!**/conf_example.js']
-            },
-            'backendTest' : {
-                options: {
-                    jahintrc: 'test/backend/.jshintrc'
-                },
-                src: ['test/backend/**/*.js']
-            }
+            }//,
+            //'backendTest' : {
+            //    options: {
+            //        jahintrc: 'test/backend/.jshintrc'
+            //    },
+            //    src: ['test/backend/**/*.js']
+            //}
         },
 
 
@@ -209,31 +204,24 @@ module.exports = function (grunt) {
             }
         },
 
+
         // Compiles Sass to CSS and generates necessary files if requested
-        compass: {
-            options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                generatedImagesDir: '.tmp/images/generated',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: './bower_components',
-                httpImagesPath: '/images',
-                httpGeneratedImagesPath: '/images/generated',
-                httpFontsPath: '/styles/fonts',
-                relativeAssets: false,
-                assetCacheBuster: false,
-                raw: 'Sass::Script::Number.precision = 10\n'
-            },
-            dist: {
-                options: {
-                    generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-                }
+        sass: {
+
+            files: {
+                '.tmp/styles/main.css' : '<%= yeoman.app %>/styles/main.scss'
             },
             server: {
                 options: {
                     debugInfo: true
+                },
+                files: {
+                    '.tmp/styles/main.css' : '<%= yeoman.app %>/styles/main.scss'
+                }
+            },
+            dist: {
+                files: {
+                    '.tmp/styles/main.css' : '<%= yeoman.app %>/styles/main.scss'
                 }
             }
         },
@@ -466,16 +454,16 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [
-                'compass:server'
+                'sass:server'
 
             ],
             test: [
-                'compass'
+                'sass'
             ],
             dist: [
-                'compass:dist'
-               //'imagemin',
-               // 'svgmin'
+                'sass:dist'//,
+                //'imagemin',
+                //'svgmin'
             ]
         },
 
@@ -564,26 +552,26 @@ module.exports = function (grunt) {
         'htmlmin'
     ]);
 
-    grunt.registerTask('analyze', [ 'jscpd', 'grunt-jscpd-reporter']);
+    //grunt.registerTask('analyze', [ 'jscpd', 'grunt-jscpd-reporter']);
 
 
-    grunt.registerTask('bundle', 'A task that bundles all dependencies.', function () {
-        // "package" is a reserved word so it's abbreviated to "pkg"
-        var packagePath = appConfig.dist + '/package.json';
-        var pkg = grunt.file.readJSON( packagePath  );
-        // set the bundled dependencies to the keys of the dependencies property
-        pkg.bundledDependencies = Object.keys(pkg.dependencies);
-        // write back to package.json and indent with two spaces
-        grunt.file.write(  packagePath , JSON.stringify(pkg, undefined, '  '));
-    });
+    //grunt.registerTask('bundle', 'A task that bundles all dependencies.', function () {
+    //    // "package" is a reserved word so it's abbreviated to "pkg"
+    //    var packagePath = appConfig.dist + '/package.json';
+    //    var pkg = grunt.file.readJSON( packagePath  );
+    //    // set the bundled dependencies to the keys of the dependencies property
+    //    pkg.bundledDependencies = Object.keys(pkg.dependencies);
+    //    // write back to package.json and indent with two spaces
+    //    grunt.file.write(  packagePath , JSON.stringify(pkg, undefined, '  '));
+    //});
 
 
-    grunt.registerTask( 'writeVersion', function(  ){
-        //console.log(grunt.config.data.gitinfo.local );
-        grunt.file.write( appConfig.dist + '/version.json', JSON.stringify(
-            { 'version' : pkg.version, 'gitinfo' : grunt.config.data.gitinfo, timestamp : new Date().getTime(), hostname: require('os').hostname()  }
-        ) );
-    });
+    //grunt.registerTask( 'writeVersion', function(  ){
+    //    //console.log(grunt.config.data.gitinfo.local );
+    //    grunt.file.write( appConfig.dist + '/version.json', JSON.stringify(
+    //        { 'version' : pkg.version, 'gitinfo' : grunt.config.data.gitinfo, timestamp : new Date().getTime(), hostname: require('os').hostname()  }
+    //    ) );
+    //});
 
 
     grunt.registerTask('default', [

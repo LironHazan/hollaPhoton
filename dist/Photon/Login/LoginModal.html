@@ -1,0 +1,22 @@
+<div >
+    <div class="modal-body" >
+        <form id="login-modal" name="login-form">
+            <div id="login-inputs">
+                <p><input ng-model="item.email"  type="email" placeholder=" Email"></p>
+                <p><input ng-model="item.passwd"  type="password" placeholder=" Password"></p>
+            </div>
+        </form>
+        <div class="login-btn">
+            <button class="btn btn-info" ng-click="login()" ng-disabled="!item.email">
+                <span ng-show="isLogin"><i class="fa fa-spinner fa-pulse"></i></span>
+               Login</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
