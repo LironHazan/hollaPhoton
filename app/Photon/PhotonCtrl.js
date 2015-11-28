@@ -15,6 +15,27 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     $scope.volts = 0;
     $scope.deviceName = 'deviceName';
 
+   // $scope.item = item;
+    $scope.isLogin = false;
+    $scope.email;
+    $scope.passwd;
+    $scope.login = function () {
+
+     //   if ($scope.item && $scope.item.email && $scope.item.passwd) {
+            $scope.isLogin = true;
+            LoginService.login({email:$scope.email, passwd:$scope.passwd}).then( function success (){
+                $scope.isLogin = false;
+                LoginService.storeLoginDetails({email:$scope.email, passwd:$scope.passwd});
+               // $modalInstance.dismiss('login');
+                $rootScope.$emit('userLoggedIn');
+            }, function error(err){
+                $scope.isLogin = false;
+                toastr.error(err.data, 'Error While Trying To Login' , toastrOpts);
+            });
+
+     //   }
+    };
+
   /*  $scope.tabs = [
         { title:'Charts', content:'Dynamic content 1' }
     ];*/
