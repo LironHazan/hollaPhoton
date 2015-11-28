@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('Aura').controller('LoginCtrl', function ( $rootScope, $scope, $state, $log, LoginService,toastr) {
-//modal
+
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 

@@ -10,14 +10,11 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
     $rootScope.globals = {
         creds : {}
     };
+
     $scope.devicesList = [];
     $scope.logOut =false;
     $scope.volts = 0;
     $scope.deviceName = 'deviceName';
-
-  /*  $scope.tabs = [
-        { title:'Charts', content:'Dynamic content 1' }
-    ];*/
 
 //for dropdown
     $scope.devices = [];
@@ -26,9 +23,9 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
         isopen: false
     };
 
-    $scope.toggled = function(/*open*/) {
-      //  $log.log('Dropdown is now: ', open);
-    };
+    //$scope.toggled = function(/*open*/) {
+    //  //  $log.log('Dropdown is now: ', open);
+    //};
 
     $scope.toggleDropdown = function($event) {
         $event.preventDefault();
@@ -72,13 +69,9 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
 
     });
 
-
-
     //fetch devices on refresh (user details are on session)
     DevicesService.getListDevices().then(function success(list){
 
-        //$scope.loginBtn = false;
-        //$scope.logOut =true;
         $scope.tabset = true;
         $scope.showGauge = true;
 
@@ -120,26 +113,6 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
     });
 
     $scope.animationsEnabled = true;
-
-    //$scope.open = function () {
-    //
-    //    $modal.open({
-    //        animation: $scope.animationsEnabled,
-    //        templateUrl: 'Photon/Login/LoginModal.html',
-    //        controller: 'LoginCtrl',
-    //        windowClass: 'center-modal',
-    //        size:'sm',
-    //        resolve: {
-    //            item: function () {
-    //                return $scope.item;
-    //            }
-    //        }
-    //    });
-    //    $scope.toggleAnimation = function () {
-    //        $scope.animationsEnabled = !$scope.animationsEnabled;
-    //    };
-    //
-    //};
 
     $rootScope.$on('userLoggedIn',function() {
         var creds = LoginService.getLoginCache();
@@ -185,7 +158,8 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
             $scope.showChart = false;
             $scope.devicesTable = false;
             $scope.tabset = false;
-            $state.go('login');
+
+            $state.go('login'); //back to login page when logged out
 
             DevicesService.getListDevices().then(function success(/*list*/){
 
