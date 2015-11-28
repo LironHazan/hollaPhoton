@@ -3,7 +3,7 @@
  */
 
 'use strict';
-angular.module('Photon').service('LoginService', function ( $http ) {
+angular.module('Aura').service('LoginService', function ( $http ) {
 
 
     var cache = null;

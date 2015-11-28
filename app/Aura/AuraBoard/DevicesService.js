@@ -3,7 +3,7 @@
  */
 
 'use strict';
-angular.module('Photon').service('DevicesService', function ( $http ) {
+angular.module('Aura').service('DevicesService', function ( $http ) {
 
     function getListDevices(){
 
