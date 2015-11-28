@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('myPhotonApp', [
+    .module('Aura-app', [
         'ngAnimate',
         'toastr',
         'ngCookies',
@@ -10,12 +10,12 @@ angular
         'ngSanitize',
         'ngTouch',
         'ui.bootstrap',
-        'Photon',
+        'Aura',
         'ngJustGage',
         'n3-line-chart'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.otherwise('/login');
 
         //initialize get if not there
         if (!$httpProvider.defaults.headers.get) {

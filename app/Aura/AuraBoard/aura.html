@@ -1,4 +1,4 @@
-<div id="main-photon">
+<div id="main-photon" ng-controller="AuraCtrl">
 
     <div id="aura-title">
         <h6 class="col-xs-2"><i class="material-icons">dashboard</i> AURA </h6>
@@ -6,38 +6,9 @@
 
     <div id="aura-heading" class="container-fluid">
         <div class="row">
-            <div ng-show= "false" class="col-xs-4"><h4> Filters Monitoring Dashboard</h4></div>
+            <div class="col-xs-4"><h4> Filters Monitoring Dashboard</h4></div>
             <div class="col-xs-6"> <h6 ng-show="loggedIn" >{{greeting}} <a class="label label-primary" ng-click="logout()">Logout </a>  </h6></div>
-            <!--<div class="col-xs-12"><button ng-show="loginBtn" class="btn btn-raised btn-default" ng-click="open()"><i class="material-icons">lock</i> Login</button></div>-->
         </div>
-    </div>
-
-    <div class="container-viewport" ng-show="loginBtn">
-        <div id="login-form">
-            <h2>Log In</h2>
-            <div class="modal-body" >
-                <form id="login-modal" name="login-form">
-                    <div id="login-inputs" class="form-group">
-                        <p><input class="form-control" ng-model="email"  type="email" placeholder=" Email"></p>
-                        <p><input class="form-control" ng-model="passwd"  type="password" placeholder=" Password"></p>
-                    </div>
-                </form>
-                <div class="login-btn">
-                    <button class="btn btn-primary" ng-click="login()" ng-disabled="!email">
-                        <span ng-show="isLogin"><i class="fa fa-spinner fa-pulse"></i></span>
-                        Login
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
-
-
     </div>
 
 <div class="container">

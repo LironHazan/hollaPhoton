@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, $modal, DevicesService, LoginService,toastr, /*SensorFlowService,*/ $http, $state, $log) {
+angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, DevicesService, LoginService,toastr, $http, $state, $log) {
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -14,27 +14,6 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
     $scope.logOut =false;
     $scope.volts = 0;
     $scope.deviceName = 'deviceName';
-
-   // $scope.item = item;
-    $scope.isLogin = false;
-    $scope.email;
-    $scope.passwd;
-    $scope.login = function () {
-
-     //   if ($scope.item && $scope.item.email && $scope.item.passwd) {
-            $scope.isLogin = true;
-            LoginService.login({email:$scope.email, passwd:$scope.passwd}).then( function success (){
-                $scope.isLogin = false;
-                LoginService.storeLoginDetails({email:$scope.email, passwd:$scope.passwd});
-               // $modalInstance.dismiss('login');
-                $rootScope.$emit('userLoggedIn');
-            }, function error(err){
-                $scope.isLogin = false;
-                toastr.error(err.data, 'Error While Trying To Login' , toastrOpts);
-            });
-
-     //   }
-    };
 
   /*  $scope.tabs = [
         { title:'Charts', content:'Dynamic content 1' }
@@ -142,31 +121,31 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
 
     $scope.animationsEnabled = true;
 
-    $scope.open = function () {
-
-        $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'Photon/Login/LoginModal.html',
-            controller: 'LoginCtrl',
-            windowClass: 'center-modal',
-            size:'sm',
-            resolve: {
-                item: function () {
-                    return $scope.item;
-                }
-            }
-        });
-        $scope.toggleAnimation = function () {
-            $scope.animationsEnabled = !$scope.animationsEnabled;
-        };
-
-    };
+    //$scope.open = function () {
+    //
+    //    $modal.open({
+    //        animation: $scope.animationsEnabled,
+    //        templateUrl: 'Photon/Login/LoginModal.html',
+    //        controller: 'LoginCtrl',
+    //        windowClass: 'center-modal',
+    //        size:'sm',
+    //        resolve: {
+    //            item: function () {
+    //                return $scope.item;
+    //            }
+    //        }
+    //    });
+    //    $scope.toggleAnimation = function () {
+    //        $scope.animationsEnabled = !$scope.animationsEnabled;
+    //    };
+    //
+    //};
 
     $rootScope.$on('userLoggedIn',function() {
         var creds = LoginService.getLoginCache();
         $rootScope.globals.creds = creds;
         $scope.loggedIn = true;
-        $scope.loginBtn = false;
+       // $scope.loginBtn = false;
         $scope.logOut =true;
         $scope.greeting = 'Hello! you are connected as: ' + creds.email;
         $scope.showGauge = true;
@@ -206,6 +185,7 @@ angular.module('Photon').controller('PhotonCtrl', function ($rootScope, $scope, 
             $scope.showChart = false;
             $scope.devicesTable = false;
             $scope.tabset = false;
+            $state.go('login');
 
             DevicesService.getListDevices().then(function success(/*list*/){
 
