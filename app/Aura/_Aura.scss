@@ -1,22 +1,42 @@
 
-
-#main-photon {
-
-  #aura-title{
-    top: 100px;
-  }
-
-}
-
 #login-form{
-  margin: 0 auto;
+  margin: 10% auto;
   width: 400px;
   padding: 40px;
   border-radius: 3px;
   background: white;
 }
 
-
-@media only screen and (max-device-width: 480px) {
+.table-responsive {
+  overflow-x: auto;
 }
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+
+}
+
+//
+//@media only screen and (max-device-width: 480px) {
+//}
 
