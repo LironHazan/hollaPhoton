@@ -15,7 +15,7 @@ angular.module('Aura').controller('LoginCtrl', function ( $rootScope, $scope, $s
     $scope.login = function () {
         LoginService.login({email:$scope.email, passwd:$scope.passwd}).then( function success (){
             $scope.isLogin = false;
-            $state.go('home'); // go to /home page on successful login
+            $state.go('aura'); // go to /home page on successful login
             LoginService.storeLoginDetails({email:$scope.email, passwd:$scope.passwd});
             $rootScope.$emit('userLoggedIn'); // post to the subscribers that user was logged in
         }, function error(err){

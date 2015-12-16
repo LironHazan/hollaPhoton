@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, DevicesService, LoginService,toastr, $http, $state, $log) {
+angular.module('Aura').controller('devices', function ($rootScope, $scope, DevicesService, LoginService,toastr, $http, $state, $log) {
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -139,8 +139,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
             $scope.devicesTable = true;
 
 
-        }, function error(err){
-            console.log(err);
+             console.log(err);
             $scope.loginBtn = true;
             $scope.loggedIn = false;
         });

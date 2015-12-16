@@ -1,0 +1,27 @@
+<div ng-controller="switchTabsCtrl">
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-2" >
+            <h6><i class="material-icons">dashboard</i> AURA </h6>
+        </div>
+
+        <div id="aura-heading" class="container-fluid">
+            <div class="row">
+                <div class="col-xs-4"><h4> Filters Monitoring Dashboard</h4></div>
+                <div class="col-xs-6"> <h6 ng-show="loggedIn" >{{greeting}} <a class="label label-primary" ng-click="logout()">Logout </a>  </h6></div>
+            </div>
+        </div>
+        <uib-tabset>
+        <uib-tab
+                ng-repeat="tab in tabs"
+                heading="{{tab.heading}}"
+                select="go(tab.route)"
+                active="tab.active">
+        </uib-tab>
+    </uib-tabset>
+</div>
+
+    <div ui-view> </div>
+</div>
+</div>

@@ -15,14 +15,17 @@ angular.module('Aura', [
 ]);
 
 
-angular.module('Aura').config(function($stateProvider, $httpProvider) {
-    $stateProvider.state('login', { // first state is login page
+    angular.module('Aura').config(function($stateProvider, $httpProvider) {
+    $stateProvider.state('aura', {
+        url: '/aura',
+        controller: 'AuraProxyCtrl'
+    }).state('login', {
         url: '/login',
         templateUrl: 'Aura/Login/login.html',
         controller: 'LoginCtrl'
-    }).state('home', {
+    }).state('tabs-switch', {
         url: '/home',
-        templateUrl: 'Aura/AuraBoard/aura.html' //controller inline AuraCtrl
+        templateUrl: 'Aura/AuraBoard/auraTabsSwitch.html'
     });
 
     $httpProvider.interceptors.push('loginHttpInterceptor'); //doesn't actually work
