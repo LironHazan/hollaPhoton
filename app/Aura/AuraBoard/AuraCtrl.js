@@ -13,7 +13,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
 
     $scope.devicesList = [];
     $scope.logOut =false;
-    $scope.volts = 0;
+    $scope.dust = 0;
     $scope.deviceName = 'deviceName';
 
 //for dropdown
@@ -43,13 +43,13 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
                 $scope.$apply(function() {
                     getReading(id).then(function success(data){
                         if(data.status===200){
-                            var volts = parseFloat(data.data.data.result);
-                            volts = volts.toFixed(2);
-                            $scope.volts = volts;
+                            var dust = parseFloat(data.data.data.result);
+                            dust = dust.toFixed(2);
+                            $scope.dust = dust;
 
                         }
                     }, function error(err){
-                        toastr.error(err.data, 'Error While Trying To read volts, Device is not connected' , toastrOpts);
+                        toastr.error(err.data, 'Error While Trying To read dust density, Device is not connected' , toastrOpts);
 
                     });
                 });
@@ -179,7 +179,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
 
 
     var getDataForLineChart = function(){
-        $http.get('/backend/photoresistor/lastHour').then(function success(data){
+        $http.get('/backend/dust/lastHour').then(function success(data){ // changed from photoresistor
 
 
                 var timeset = [];
@@ -211,11 +211,11 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
             y: {type: 'linear'}
         },
         series: [
-            {y: 'value', color: 'steelblue', thickness: '2px', type: 'column', striped: true, label: 'Volts'}
+            {y: 'value', color: 'steelblue', thickness: '2px', type: 'linear', striped: true, label: 'Dust-Density'}
         ],
         lineMode: 'linear',
         tension: 0.7,
-        tooltip: {mode: 'scrubber', formatter: function(/*x, y, series*/) {return 'volts';}},
+        tooltip: {mode: 'scrubber', formatter: function(/*x, y, series*/) {return 'dustDensity';}},
         drawLegend: true,
         drawDots: true,
         hideOverflow: false,
@@ -224,7 +224,9 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
     //var device;
 
     function getReading(device){
-        return  $http.post('/backend/photoresistor/volts', {id: device});
+        //return  $http.post('/backend/photoresistor/volts', {id: device});
+        return  $http.post('/backend/dust/dustDensity', {id: device});
+
     }
 
 /*    $scope.getId = function(){

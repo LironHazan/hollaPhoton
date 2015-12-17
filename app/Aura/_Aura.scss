@@ -7,6 +7,17 @@
   background: white;
 }
 
+.logo {
+  width: 145px;
+  background-image: url("../images/logo.png");
+  height: 100px;
+  background-repeat: no-repeat;
+  float: left;
+  margin-top: 5px;
+  margin-left: 10px;
+  background-size: 80%;
+}
+
 .table-responsive {
   overflow-x: auto;
 }
