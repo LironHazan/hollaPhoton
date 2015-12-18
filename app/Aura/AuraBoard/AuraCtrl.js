@@ -65,7 +65,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
         $scope.loggedIn = true;
         $scope.showChart = true;
         $scope.devicesTable = true;
-        $scope.showGauge = true;
+       // $scope.showGauge = true;
 
     });
 
@@ -73,7 +73,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
     DevicesService.getListDevices().then(function success(list){
 
         $scope.tabset = true;
-        $scope.showGauge = true;
+       // $scope.showGauge = true;
 
 
         $scope.devicesList = list.data.listOfDevices;
@@ -121,7 +121,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
        // $scope.loginBtn = false;
         $scope.logOut =true;
         $scope.greeting = 'Hello! you are connected as: ' + creds.email;
-        $scope.showGauge = true;
+       // $scope.showGauge = true;
         $scope.tabset = true;
 
         DevicesService.getListDevices().then(function success(list){
@@ -154,7 +154,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
 
         LoginService.logout().then(function success(/*data*/){
             //todo: this is ugly - fix it
-            $scope.showGauge = false;
+           // $scope.showGauge = false;
             $scope.showChart = false;
             $scope.devicesTable = false;
             $scope.tabset = false;
@@ -229,7 +229,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
 
     }
 
-/*    $scope.getId = function(){
+    $scope.getId = function(){
      var deviceID =  $('#device-id').text();
        // return deviceID.trim();
         deviceID = deviceID.trim();
@@ -250,7 +250,7 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
         }, 3000);
 
         //clearInterval(getVolts);
-        *//*
+
                 DevicesService.getDevice(deviceID).then(function success(data){
                     setInterval(function(){
                         $scope.$apply(function() {
@@ -267,9 +267,9 @@ angular.module('Aura').controller('AuraCtrl', function ($rootScope, $scope, Devi
                 }, function error(){
 
                 });
-        *//*
 
-    };*/
+
+    };
 
 
 
