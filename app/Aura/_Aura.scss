@@ -7,6 +7,37 @@
   background: white;
 }
 
+.dusty-gauge {
+  width: 500px;
+  height: 200px;
+  display: inline-block;
+}
+
+.logo {
+  width: 145px;
+  //background-image: url("../images/logo.png");
+  background-image: url("../images/logoInline.svg");
+  height: 100px;
+  background-repeat: no-repeat;
+  float: left;
+  margin-top: 5px;
+  margin-left: 10px;
+  background-size: 90%;
+}
+
+.login-logo {
+  width: 145px;
+  background-image: url("../images/logoInline.svg");
+  height: 100px;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+  //float: left;
+  //margin-top: 5px;
+  //margin-left: 10px;
+  background-size: 80%;
+}
+
 .table-responsive {
   overflow-x: auto;
 }
