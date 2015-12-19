@@ -27,6 +27,12 @@ angular.module('Aura', [
     }).state('tabs-switch', {
         url: '/home',
         templateUrl: 'Aura/AuraBoard/auraTabsSwitch.html'
+    }).state('tabs-switch.devices', {
+        url: '/myDevices',
+        templateUrl: 'Aura/AuraBoard/myDevices.html'
+    }).state('tabs-switch.charts', {
+        url: '/charts',
+        templateUrl: 'Aura/AuraBoard/charts.html'
     });
 
     $httpProvider.interceptors.push('loginHttpInterceptor'); //doesn't actually work

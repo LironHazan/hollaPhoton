@@ -3,23 +3,21 @@
     <div class="row">
 
         <div class="col-xs-2" >
-            <h6><i class="material-icons">dashboard</i> AURA </h6>
+            <div class="logo"></div>
         </div>
 
+
         <div id="aura-heading" class="container-fluid">
-            <div class="row">
-                <div class="col-xs-4"><h4> Filters Monitoring Dashboard</h4></div>
-                <div class="col-xs-6"> <h6 ng-show="loggedIn" >{{greeting}} <a class="label label-primary" ng-click="logout()">Logout </a>  </h6></div>
-            </div>
+            <div class="col-xs-6"> <h6 ng-show="loggedIn" >{{greeting}} <a class="label label-primary" ng-click="logout()">Logout </a>  </h6></div>
         </div>
-        <uib-tabset>
-        <uib-tab
+        <tabset>
+        <tab
                 ng-repeat="tab in tabs"
                 heading="{{tab.heading}}"
                 select="go(tab.route)"
                 active="tab.active">
-        </uib-tab>
-    </uib-tabset>
+        </tab>
+    </tabset>
 </div>
 
     <div ui-view> </div>

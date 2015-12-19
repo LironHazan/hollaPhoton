@@ -10,6 +10,7 @@ var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');
 var deviceDao = require('./DevicesDao');
 
+// gets device data by its id
 function getDeviceById(req, res){
     var device = req.body;
     if(req.creds){
@@ -70,23 +71,5 @@ function getListOfDevices(req, res){
 
 }
 router.get('/listDevices', sessionLoginMiddleware.getUserAndCreds, getListOfDevices);
-
-function getSelectedDeviceId (req, res){
-    if(req.body.name){
-        deviceDao.Devices.findDevice({name:req.body.name}).then(function success(data){
-            if(data.length > 0){
-                var id = data[0].id;
-                res.status(200).send({id:id});
-            }
-        }, function error(){
-            logger.error('error finding device');
-            res.status(404).send({msg:'not found'});
-        });
-
-    }
-
-}
-
-router.post('/device-id', getSelectedDeviceId);
 
 module.exports = router;

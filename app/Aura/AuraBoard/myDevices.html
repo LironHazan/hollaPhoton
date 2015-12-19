@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div ng-controller="devices">
 
-</body>
-</html>
+
+<div class="container-fluid">
+    <h6  ng-show="emptyList"> No Devices </h6>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th> Device Id </th>
+                <th> Device Name </th>
+                <th> Connected </th>
+            </tr>
+            <tr ng-repeat="device in devicesList">
+                <td id="device-id" ng-click="getId()">{{device.id}}</td>
+                <td> {{device.name}} </td>
+                <td> {{device.connected}} </td>
+                <!--<td>Last App: {{ device.lastApp }} </td>-->
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</div>

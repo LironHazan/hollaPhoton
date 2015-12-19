@@ -4,14 +4,48 @@
 
 'use strict';
 
-angular.module('Aura').controller('switchTabsCtrl', function ($scope, $state) {
+angular.module('Aura').controller('switchTabsCtrl', function ($scope, $state, LoginService) {
 
     // using https://github.com/angular-ui/ui-router/wiki + bootstrap ui (tabset)
-   // $scope.tabset = true;
+
+    LoginService.getLoggedUser().then(function (data) {
+        $scope.greeting = 'Hey! you are connected as: ' + data.data.name;
+        $scope.loggedIn = true;
+        $scope.showChart = true;
+        $scope.devicesTable = true;
+        // $scope.showGauge = true;
+
+    });
+
+    $scope.logout = function(){
+
+        LoginService.logout().then(function success(/*data*/){
+            //todo: this is ugly - fix it
+            // $scope.showGauge = false;
+            $scope.showChart = false;
+            $scope.devicesTable = false;
+            $scope.tabset = false;
+
+            $state.go('login'); //back to login page when logged out
+
+            //DevicesService.getListDevices().then(function success(/*list*/){
+            //
+            //}, function error(/*err*/){
+            //    $scope.loginBtn = true;
+            //    $scope.logOut =false;
+            //    $scope.loggedIn = false;
+            //    //  $scope.devicesList = list.data.listOfDevices;
+            //});
+
+        }, function err(/*err*/){
+
+        });
+    };
+
 
     $scope.tabs = [
-        { heading: 'Registered Devices', route:'aura', active:false },
-        { heading: 'Charts', route:'aura.graphs', active:false }
+        { heading: 'My Devices', route:'tabs-switch.devices', active:false },
+        { heading: 'Charts', route:'tabs-switch.charts', active:false }
     ];
 
     $scope.go = function(route){ // gets tabs.route (wanted state)
