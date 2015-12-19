@@ -23,6 +23,7 @@
             </p>
             <p>
 
+
             <div class="container-fluid" ng-show="devicesTable">
             <h6  ng-show="emptyList"> No Devices </h6>
             <div class="table-responsive">
@@ -33,7 +34,7 @@
                         <th> Connected </th>
                     </tr>
                     <tr ng-repeat="device in devicesList">
-                        <td >{{device.id}}</td> <!--id="device-id" ng-click="getId()" title="Click to see graphs"-->
+                        <td id="device-id" ng-click="getId()">{{device.id}}</td> <!--id="device-id" ng-click="getId()" title="Click to see graphs"-->
                         <td> {{device.name}} </td>
                         <td> {{device.connected}} </td>
                         <!--  <td>Last App: {{ device.lastApp }} </td>-->
@@ -44,6 +45,7 @@
         </div>
             </p>
         </tab>
+
         <tab heading="Charts">
             <p>
             <div class="btn-group" dropdown keyboard-nav on-toggle="toggled(open)">
@@ -61,6 +63,11 @@
                 <div class="col-xs-6" ng-show="showChart">
                     <linechart data="data" options="options" mode="" width="550" height="300"></linechart>
                 </div>
+
+                <div class="col-sm-3">
+                    <!--<just-gage id="volts-gauge" min=0 max=3.3 value="volts" title="Select a connected device"></just-gage>-->
+                </div>
+
             </div>
             </p>
         </tab>
@@ -71,12 +78,14 @@
 -->
     </tabset>
 
-<!--
-    <div class="col-sm-3" ng-show="showGauge">
-        <just-gage id="volts-gauge" min=0 max=3.3 value="volts" title="Select a connected device"></just-gage>
-    </div>
--->
+    <div class="dusty-gauge" ng-show="showGauge">
+        <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
+            title: 'Current dust density of selected sensor:',
+            levelColors: ['#009688', '#009688', '#009688', '#009688'],
+            levelGradiant: false
+        }"></just-gage>
 
+    </div>
 
 </div>
 </div>

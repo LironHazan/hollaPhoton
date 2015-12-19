@@ -1,0 +1,33 @@
+<div ng-controller="chartsCtrl">
+
+<div class="btn-group" dropdown keyboard-nav on-toggle="toggled(open)">
+    <button id="simple-btn-keyboard-nav" type="button" class="btn" dropdown-toggle>
+        Select Device <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+        <li ng-repeat="device in devicesNameList">
+            <a tabindex="-1" href="#" ng-click="sampleSelectedDeviceMetric(device)">{{device}}</a>
+        </li>
+    </ul>
+</div>
+
+<button class="btn" ng-click="getLineChartData()"> Refresh data</button>
+
+<div class="container">
+    <div class="col-xs-6" ng-show="showChart">
+        <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
+    </div>
+
+</div>
+
+    <div class="dusty-gauge" >
+        <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
+            title: 'Current dust density of selected sensor:',
+            levelColors: ['#009688', '#009688', '#009688', '#009688'],
+            levelGradiant: false
+        }"></just-gage>
+
+    </div>
+
+
+</div>

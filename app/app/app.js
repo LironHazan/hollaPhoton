@@ -15,7 +15,7 @@ angular
         'n3-line-chart'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/aura');
 
         //initialize get if not there
         if (!$httpProvider.defaults.headers.get) {

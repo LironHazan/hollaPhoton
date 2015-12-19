@@ -15,8 +15,6 @@
     <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css" />
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
     <!-- endbower -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
  <!--   <link rel="stylesheet" href="styles/icons/style.css" />-->
@@ -60,7 +58,7 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/spark/dist/spark.min.js"></script>
     <script src="bower_components/angular-justgage/ng-justgage.js"></script>
-    <script src="bower_components/justgage-toorshia/justgage-1.0.1.js"></script>
+    <script src="bower_components/justgage-toorshia/justgage.js"></script>
     <script src="bower_components/raphael/raphael-min.js"></script>
     <script src="bower_components/n3-line-chart/build/line-chart.min.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
@@ -70,7 +68,7 @@
     <!-- endbuild -->
     <!-- build:js(.) scripts/jquery-ui-custom -->
     <!-- jqueryui:js -->
-<!--    <script src="bower_components/jquery-ui/ui/core.js"></script>
+    <!--    <script src="bower_components/jquery-ui/ui/core.js"></script>
     <script src="bower_components/jquery-ui/ui/widget.js"></script>
     <script src="bower_components/jquery-ui/ui/mouse.js"></script>
     <script src="bower_components/jquery-ui/ui/draggable.js"></script>
@@ -81,8 +79,11 @@
       <!-- build:js({.tmp,app}) scripts/scripts.js -->
       <script src="app/app.js"></script>
       <script src="Aura/Aura.js"></script>
-      <script src="Aura/AuraBoard/AuraCtrl.js"></script>
-      <script src="Aura/Login/LoginCtrl.js"></script>
+      <script src="Aura/AuraProxyCtrl.js"></script>
+      <script src="Aura/AuraBoard/DevicesCtrl.js"></script>
+      <script src="Aura/AuraBoard/AutaTabSwitchCtrl.js"></script>
+     <script src="Aura/AuraBoard/ChartsCtrl.js"></script>
+     <script src="Aura/Login/LoginCtrl.js"></script>
       <script src="Aura/Login/LoginService.js"></script>
       <script src="Aura/AuraBoard/DevicesService.js"></script>
       <script src="Aura/Login/loginHttpInterceptor.js"></script>
