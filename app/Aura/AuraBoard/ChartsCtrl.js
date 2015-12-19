@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, toastr, $http, $log) {
+angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, toastr, $http, $log,  $localStorage) {
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -11,6 +11,25 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
     $scope.devicesNameList = []; // dynamic list for dropdown
     $scope.devicesMap = {}; // device name mapped to id
     $scope.lineChartdata = [];
+
+    // returns true or false according to checkbox
+    $scope.$storage = $localStorage; //should use to fix refresh
+    $scope.collectMetrics = function(){
+        $scope.$storage.collect = $scope.collect;
+
+        //emit event
+        $scope.$broadcast('collectChange', $scope.collect);
+       // return $scope.collect;
+    };
+
+
+    $scope.$on('collectChange', function(event, isCollecting) {
+        console.log(isCollecting);
+        // when selecting a device strting to collect and save its metrics in the backend
+        if($scope.$storage.deviceid){
+            $http.post('/backend/dust/collect',  {id: $scope.$storage.deviceid, collect:isCollecting});
+        }
+    });
 
     //todo: need to fetch the metrics constatnly once started - use local-storage? or move logic to backend to save data all the time.
     //todo: drop down should display only connected devices
@@ -23,7 +42,9 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
                 return;
         }
         _.each(list.data.listOfDevices, function(device){
-            $scope.devicesNameList.push(device.name);
+            if(device.connected === true){ // show only connected device in dropdown list
+                $scope.devicesNameList.push(device.name);
+            }
             // map name to id
             $scope.devicesMap[device.name] = device.id;
         });
@@ -65,6 +86,10 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
         $log.log('device is now: ', device);
         // dust density val for gauge
         var id = $scope.devicesMap[device];
+        $scope.$storage.deviceid = id;
+        // when selecting a device strting to collect and save its metrics in the backend
+        //$http.post('/backend/dust/collect',  {id: id});
+
         setInterval(function (){
             $scope.$apply(function() {
                 getMetric(id);

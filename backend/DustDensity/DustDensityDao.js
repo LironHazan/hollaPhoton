@@ -54,7 +54,6 @@ DustDensity.findEntries = function (projection) {
     return deferred.promise;
 };
 
-
 DustDensity.updateEntries = function (newEntry, projection) {
     var deferred = Q.defer();
     DustDensity.connect(function (collection) {

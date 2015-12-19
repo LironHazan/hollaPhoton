@@ -12,9 +12,11 @@
 </div>
 
 <button class="btn" ng-click="getLineChartData()"> Refresh data</button>
+<input type="checkbox" ng-model="collect" ng-change="collectMetrics()"> collecting metrics
 
 <div class="container">
     <div class="col-xs-6" ng-show="showChart">
+       <p> <label>Last Hour Dust Density</label> </p>
         <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
     </div>
 

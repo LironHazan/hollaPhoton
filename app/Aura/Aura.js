@@ -12,7 +12,8 @@ angular.module('Aura', [
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'ngJustGage'
+    'ngJustGage',
+    'ngStorage'
 ]);
 
 
