@@ -267,6 +267,18 @@ module.exports = function (grunt) {
             }
         },
 
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.svg',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
+            }
+        },
+
+
         htmlmin: {
             dist: {
                 options: {
@@ -314,7 +326,14 @@ module.exports = function (grunt) {
         // Copies remaining files to places other tasks can use
         copy: {
             dist: {
-                files: [{
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.app %>/images',
+                        src: '{,*//*}*.{png,jpg,jpeg,gif}',
+                        dest: '<%= yeoman.dist %>/images'
+                    },
+                    {
                     expand: true,
                     dot: true,
                     cwd: '<%= yeoman.app %>',
@@ -334,12 +353,6 @@ module.exports = function (grunt) {
                     ]
                 },
                     {
-                      expand:true,
-                        cwd: 'bower_components/gs-ui-infra/assets',
-                        dest : '<%= yeoman.dist %>',
-                        src: 'fonts/**/*'
-                    },
-                    {
                         expand:true,
                         cwd: 'app/styles/icons',
                         dest : '<%= yeoman.dist %>/styles/',
@@ -358,15 +371,10 @@ module.exports = function (grunt) {
                 }, {
                     'expand' : true,
                     'cwd' : '.',
-                    'src' : ['package.json','server','backend/**','!backend/conf/dev/**'],
+                    'src' : ['package.json','build/**','server','backend/**'],
                     'dest' : '<%= yeoman.dist %>'
                 }
-                   /* {
-                        'expand' : true,
-                        'cwd' : 'bower_components/ace-builds/src-min-noconflict',
-                        src: ['theme-chrome.js ','mode-yaml.js', 'mode-json.js'],
-                        dest: '<%= yeoman.dist %>'
-                    }*/]
+                ]
             },
             artifacts : {
                 expand: true,
@@ -414,9 +422,9 @@ module.exports = function (grunt) {
                 'sass'
             ],
             dist: [
-                'sass:dist'//,
+                'sass:dist',
                 //'imagemin',
-                //'svgmin'
+                'svgmin'
             ]
         },
 
