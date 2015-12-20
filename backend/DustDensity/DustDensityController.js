@@ -8,6 +8,11 @@ var router = express.Router();
 var dustDensityService = require('./DustDensityService');
 var dustDensityHandler = require('./DustDensityHandler');
 
+//var dustDensityCollector = require('./DustDensityCollector').DustDensityCollector;
+//var _dustDensityCollector = new dustDensityCollector();
+//_dustDensityCollector.testThis();
+
+
 var spark = require('spark');
 var _ = require('lodash');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
@@ -62,7 +67,6 @@ router.get('/lastHour', /*sessionLoginMiddleware.getUserAndCreds,*/ getLastHourD
 
 function toggleDustDensityCollection(req, res){
     try{
-
         var device = req.body;
         if(req.creds){
             var passwd = sessionLoginMiddleware.getUserPass();
@@ -76,7 +80,7 @@ function toggleDustDensityCollection(req, res){
 
     }
     catch(exception){
-    logger('caught exception: ' , exception);
+    logger.info('caught exception: ' , exception);
     }
 }
 router.post('/collect', sessionLoginMiddleware.getUserAndCreds, toggleDustDensityCollection);
