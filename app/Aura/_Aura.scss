@@ -1,10 +1,19 @@
 
 #login-form{
-  margin: 10% auto;
+  margin: 5% auto;
   width: 400px;
-  padding: 40px;
+  padding: 0px 40px;
+ // padding-top: 0px;
   border-radius: 3px;
   background: white;
+}
+
+.nav-tabs {
+  background: #4DB6C5;
+}
+
+.label.label-primary {
+  background-color: #4DB6C5;
 }
 
 .dusty-gauge {
@@ -16,19 +25,20 @@
 .logo {
   width: 145px;
   //background-image: url("../images/logo.png");
-  background-image: url("../images/logoInline.svg");
+  background-image: url("../images/logo.svg");
   height: 100px;
   background-repeat: no-repeat;
   float: left;
-  margin-top: 5px;
-  margin-left: 10px;
+  margin-left: -33px;
+  margin-top: -22px;
   background-size: 90%;
+
 }
 
 .login-logo {
-  width: 145px;
+  width: 200px;
   background-image: url("../images/logoInline.svg");
-  height: 100px;
+  height: 130px;
   background-repeat: no-repeat;
   margin-left: auto;
   margin-right: auto;
