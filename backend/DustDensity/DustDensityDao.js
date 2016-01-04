@@ -69,4 +69,25 @@ DustDensity.updateEntries = function (newEntry, projection) {
     return deferred.promise;
 };
 
+DustDensity.deleteData = function (projection, ops) {
+    var deferred = Q.defer();
+    DustDensity.connect(function(collection) { // projection = object like: {userId: userid,'fileName': fileName}
+        collection.dustDensity.remove(projection, ops, function (err, entry) {
+            if (err) {
+                deferred.reject(err);
+                return;
+            }
+            if (entry) {
+                deferred.resolve(entry);
+                return;
+            }
+            else { // if ledEntry null
+                deferred.resolve(null);
+            }
+        });
+    });
+    return deferred.promise;
+};
+
+
 exports.DustDensity = DustDensity;

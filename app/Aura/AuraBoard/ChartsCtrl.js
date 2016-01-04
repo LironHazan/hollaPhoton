@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, toastr, $http, $log,  $localStorage) {
+angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, ChartsService, toastr, $http, $log,  $localStorage, $timeout) {
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -98,10 +98,10 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
 
     };
 
-
+    var timeoutPromise;
     var getDataForLineChart = function(){
-        //todo - put in other service
-        $http.get('/backend/dust/lastHour').then(function success(data){
+
+        ChartsService.getLastHourData().then(function success(data){
 
             var timeset = [];
 
@@ -115,14 +115,20 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
 
             $scope.lineChartdata = timeset;
 
+            timeoutPromise = $timeout(getDataForLineChart, 1000); // polling the server for data
+
         });
     };
 
+    $scope.$on('$destroy',function(){
+        $timeout.cancel(timeoutPromise)
+    });
+
     getDataForLineChart();
 
-    $scope.getLineChartData = function(){
-        getDataForLineChart();
-    };
+    //$scope.getLineChartData = function(){
+    //    getDataForLineChart();
+    //};
 
     //linechart options
     $scope.options = {

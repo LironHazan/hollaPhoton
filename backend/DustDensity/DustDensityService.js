@@ -26,3 +26,10 @@ exports.findLast24HrEntries = function(){
 exports.createNewEntry = function(savedData){
     return dustDensityDao.DustDensity.createEntryPerDevice(savedData);
 };
+
+exports.deleteOldData = function(){ // delete data older than 1hr
+    var date = Date.now()*1000;
+    return dustDensityDao.DustDensity.deleteData({timestamp: { // remove all less than 1hr
+        $lt: date - 1000*60*60
+    }},{ multi: true }); // multi options set to true for removing multiple docs
+};

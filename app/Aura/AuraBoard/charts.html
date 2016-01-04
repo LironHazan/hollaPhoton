@@ -11,25 +11,27 @@
     </ul>
 </div>
 
-<button class="btn" ng-click="getLineChartData()"> Refresh data</button>
-<input type="checkbox" ng-model="collect" ng-change="collectMetrics()"> collecting metrics
+<!--<button class="btn" ng-click="getLineChartData()"> Refresh data</button>-->
+<!--<input type="checkbox" ng-model="collect" ng-change="collectMetrics()"> collecting metrics-->
 
 <div class="container">
-    <div class="col-xs-6" ng-show="showChart">
+    <div class="col-xs-6">
        <p> <label>Last Hour Dust Density</label> </p>
         <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
     </div>
-
-</div>
-
-    <div class="dusty-gauge" >
-        <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
+    <div class="col-xs-6">
+        <div class="dusty-gauge" >
+            <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
             title: 'Current dust density of selected sensor:',
             levelColors: ['#4DB6C5', '#4DB6C5', '#4DB6C5', '#009688'],
             levelGradiant: false
         }"></just-gage>
 
+        </div>
     </div>
+
+</div>
+
 
 
 </div>
