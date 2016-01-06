@@ -65,6 +65,13 @@ router.get('/lastHour', /*sessionLoginMiddleware.getUserAndCreds,*/ getLastHourD
 //todo: function which constantly collecting the dustDensity
 //todo: function will get flag - for start collecting and for stop collecting
 
+var loginEmitter = require('../Login/LoginEventEmitter').LoginEventEmitter;
+loginEmitter.on('logIn', (creds) =>{
+    logger.info(creds);
+    //todo: I need to pass the deviceId - maybe get it from selected?
+    dustDensityHandler.collectAndStoreMetrics(creds, device.id, device.collect);
+});
+
 function toggleDustDensityCollection(req, res){
     try{
         var device = req.body;
@@ -83,6 +90,6 @@ function toggleDustDensityCollection(req, res){
     logger.info('caught exception: ' , exception);
     }
 }
-router.post('/collect', sessionLoginMiddleware.getUserAndCreds, toggleDustDensityCollection);
+//router.post('/collect', sessionLoginMiddleware.getUserAndCreds, toggleDustDensityCollection);
 
 module.exports = router;

@@ -1,12 +1,12 @@
 'use strict';
 
-//var user = require('./User');
 var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger('aura');
-//var _ = require('lodash');
 var middleware = require('./SessionLoginMiddleware');
 var sessionLoginDao = require('../Login/User');
+
+var loginEmitter = require('./LoginEventEmitter').LoginEventEmitter;
 
 function login (req, res) {
 
@@ -15,6 +15,8 @@ function login (req, res) {
         function success(user) {
 
             req.session.userId = user._id.toString();
+            loginEmitter.emit('logIn', { username: req.creds, password: middleware.getUserPass()});
+
             res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
         }, function error(err) {
@@ -24,7 +26,8 @@ function login (req, res) {
     );
 
 }
-router.post('/login', middleware.login, login);
+
+router.post('/login', middleware.login, middleware.getUserAndCreds, login);
 
 router.get('/user',middleware.getUserAndCreds, function(req,res){
     res.status(200).send({name: req.sessionUser.email});

@@ -6,37 +6,31 @@
 var logger = require('log4js').getLogger('aura');
 var dustDensityService = require('./DustDensityService');
 var spark = require('spark');
-var Q = require('q');
 
 var refreshIntervalId = {id:null}; //save it cause service is singletone
 
 exports.getDustDensityMetrics = function(credentials, deviceId){
-    var deferred = Q.defer();
+return new Promise( function(resolve, reject){
     spark.login(credentials).then(function success(){
         spark.getVariable(deviceId, 'dustDensity', (err, data) => {
             if (err) {
                 logger.error('Error while getting variable data: ' + err);
-                deferred.reject(err);
+                reject(err);
             } else {
-                deferred.resolve(data);
+                resolve(data);
             }
         });
 
     }, function error(err){
         logger.info('Error while login: ' + err);
-        deferred.reject(err);
+        reject(err);
     });
-    return deferred.promise;
+
+});
 };
 
 
-exports.collectAndStoreMetrics = function(credentials, deviceId, isCollecting){
-
-    if (!isCollecting) {
-        logger.info('stop collecting metrics');
-        clearInterval(refreshIntervalId.id);
-        return;
-    }
+exports.collectAndStoreMetrics = function(credentials, deviceId){
 
     refreshIntervalId.id = setInterval(function () {
         logger.info('collecting dust density');
