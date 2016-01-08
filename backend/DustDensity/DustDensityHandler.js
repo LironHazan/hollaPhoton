@@ -7,21 +7,20 @@ var logger = require('log4js').getLogger('aura');
 var dustDensityService = require('./DustDensityService');
 var spark = require('spark');
 
-var refreshIntervalId = {id:null}; //save it cause service is singletone
-
 exports.getDustDensityMetrics = function(credentials, deviceId){
-return new Promise( function(resolve, reject){
-    spark.login(credentials).then(function success(){
+return new Promise( (resolve, reject) => {
+    spark.login(credentials).then(() => {
         spark.getVariable(deviceId, 'dustDensity', (err, data) => {
             if (err) {
                 logger.error('Error while getting variable data: ' + err);
                 reject(err);
-            } else {
-                resolve(data);
+                return;
             }
+            resolve(data);
+
         });
 
-    }, function error(err){
+    }, (err) => {
         logger.info('Error while login: ' + err);
         reject(err);
     });
@@ -29,50 +28,41 @@ return new Promise( function(resolve, reject){
 });
 };
 
+function formatTime(){
+    // return current time in a format used by the client
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+    if (hour < 10) {
+        hour = '0' + hour;
+    }
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    }
+    return year + '-' + month + '-' + day + 'T' + hour + ':' + minutes;
+}
 
 exports.collectAndStoreMetrics = function(credentials, deviceId){
-
-    refreshIntervalId.id = setInterval(function () {
+    // saving new entry every 60000 sec
+    setInterval(() => {
         logger.info('collecting dust density');
-        spark.login(credentials).then(function success() {
-            spark.getVariable(deviceId, 'dustDensity', (err, data) => {
-                if (err) {
-                    logger.info('Error while getting variable data: ' + err);
+                exports.getDustDensityMetrics(credentials, deviceId).then((data) => {
+                    // get current time and save entry
+                    var timestamp = new Date().getTime();
+                    var time = formatTime();
 
-                } else {
-                    var timestamp = new Date().getTime();//.toString();
-                    var date = new Date();
-                    var day = date.getDate();
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-                    var hour = date.getHours();
-                    var minutes = date.getMinutes();
-                    if (hour < 10) {
-                        hour = '0' + hour;
-                    }
-                    if (minutes < 10) {
-                        minutes = '0' + minutes;
-                    }
-                    var time = year + '-' + month + '-' + day + 'T' + hour + ':' + minutes;
+                    var savedData = {timestamp: timestamp, time: time, deviceId: deviceId, dustDensity: data.result};
 
-                    var savedData = {
-                        timestamp: timestamp,
-                        time: time,
-                        deviceId: deviceId,
-                        dustDensity: data.result
-                    };
-                    // deferred.resolve(data);
-                    dustDensityService.createNewEntry(savedData).then(function success(doc) {
+                    // saving dust density in db
+                    dustDensityService.createNewEntry(savedData).then((doc) => {
                         logger.info('entry was saved: ' + JSON.stringify(doc));
-                    }, function err(err) {
+                    }, (err) => {
                         logger.error('could not save entry: ', err);
                     });
-                }
-            });
-
-        }, function error(err) {
-            logger.info('Error while login: ' + err);
-        });
+                });
 
     }, 60000);
 

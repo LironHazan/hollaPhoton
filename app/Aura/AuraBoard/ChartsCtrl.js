@@ -12,27 +12,6 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
     $scope.devicesMap = {}; // device name mapped to id
     $scope.lineChartdata = [];
 
-    // returns true or false according to checkbox
-    //$scope.$storage = $localStorage; //should use to fix refresh
-    //$scope.collectMetrics = function(){
-    //    $scope.$storage.collect = $scope.collect;
-    //
-    //    //emit event
-    //    $scope.$broadcast('collectChange', $scope.collect);
-    //   // return $scope.collect;
-    //};
-
-
-    //$scope.$on('collectChange', function(event, isCollecting) {
-    //    console.log(isCollecting);
-    //    // when selecting a device strting to collect and save its metrics in the backend
-    //    if($scope.$storage.deviceid){
-    //        $http.post('/backend/dust/collect',  {id: $scope.$storage.deviceid, collect:isCollecting});
-    //    }
-    //});
-
-    //todo: need to fetch the metrics constatnly once started - use local-storage? or move logic to backend to save data all the time.
-    //todo: drop down should display only connected devices
 
     //fetch devices and populate devicesMap and devicesNameList
     DevicesService.getListDevices().then(function success(list){

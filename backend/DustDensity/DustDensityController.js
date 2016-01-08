@@ -8,15 +8,13 @@ var router = express.Router();
 var dustDensityService = require('./DustDensityService');
 var dustDensityHandler = require('./DustDensityHandler');
 
-//var dustDensityCollector = require('./DustDensityCollector').DustDensityCollector;
-//var _dustDensityCollector = new dustDensityCollector();
-//_dustDensityCollector.testThis();
-
-
+var devicesHandler = require('../Devices/DevicesHandler');
 var spark = require('spark');
 var _ = require('lodash');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');
+var promise = require('bluebird');
+var loginEmitter = require('../Login/LoginEventEmitter').LoginEventEmitter;
 
 function getDustDensityMetrics(req, res){
     var device = req.body;
@@ -60,36 +58,18 @@ function getLastHourData(req, res){
         res.status(200).send(sendData);
     });
 }
-router.get('/lastHour', /*sessionLoginMiddleware.getUserAndCreds,*/ getLastHourData);
+router.get('/lastHour',  getLastHourData);
 
-//todo: function which constantly collecting the dustDensity
-//todo: function will get flag - for start collecting and for stop collecting
-
-var loginEmitter = require('../Login/LoginEventEmitter').LoginEventEmitter;
+// when user logs in , start collecting his dust density
 loginEmitter.on('logIn', (creds) =>{
-    logger.info(creds);
-    //todo: I need to pass the deviceId - maybe get it from selected?
-    dustDensityHandler.collectAndStoreMetrics(creds, device.id, device.collect);
+
+    promise.coroutine(function* () {
+        let connectedDevices = yield devicesHandler.getConnectedDevices(creds.username, creds.password);
+        logger.debug(connectedDevices[0]);
+        dustDensityHandler.collectAndStoreMetrics(creds, connectedDevices[0]);
+
+    })();
+
 });
-
-function toggleDustDensityCollection(req, res){
-    try{
-        var device = req.body;
-        if(req.creds){
-            var passwd = sessionLoginMiddleware.getUserPass();
-            var credentials = { username: req.creds, password: passwd} ;
-            dustDensityHandler.collectAndStoreMetrics(credentials, device.id, device.collect);
-            res.status(200).send({msg:'ok'});
-
-        }else{
-            res.status(401).send({msg:'pls login'});
-        }
-
-    }
-    catch(exception){
-    logger.info('caught exception: ' , exception);
-    }
-}
-//router.post('/collect', sessionLoginMiddleware.getUserAndCreds, toggleDustDensityCollection);
 
 module.exports = router;
