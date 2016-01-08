@@ -4,7 +4,6 @@
 'use strict';
 
 var spark = require('spark');
-var Q = require('q');
 
 class LoginAdapter {
 
@@ -18,16 +17,14 @@ class LoginAdapter {
     }
 
     login(){
+        return new Promise((resolve, reject) => {
+            spark.login({username: this._creds.email, password: this._creds.passwd}).then((token) =>{
+                resolve(token);
+            },(err) =>{
+                reject(err);
+            });
 
-        var deffered = Q.defer();
-
-        spark.login({username: this._creds.email, password: this._creds.passwd}).then(function success(token){
-            deffered.resolve(token);
-        }, function error(err){
-            deffered.reject(err);
         });
-
-        return deffered.promise;
     }
 
 }

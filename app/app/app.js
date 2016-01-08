@@ -12,7 +12,8 @@ angular
         'ui.bootstrap',
         'Aura',
         'ngJustGage',
-        'n3-line-chart'
+        'n3-line-chart',
+        'ngStorage'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise('/aura');

@@ -3,3 +3,4 @@
  */
 'use strict';
 exports.controller = require('./DevicesController');
+exports.handler = require('./DevicesHandler');

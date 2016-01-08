@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, toastr, $http, $log) {
+angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, ChartsService, toastr, $http, $log,  /*$localStorage,*/ $timeout) {
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -12,8 +12,6 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
     $scope.devicesMap = {}; // device name mapped to id
     $scope.lineChartdata = [];
 
-    //todo: need to fetch the metrics constatnly once started - use local-storage? or move logic to backend to save data all the time.
-    //todo: drop down should display only connected devices
 
     //fetch devices and populate devicesMap and devicesNameList
     DevicesService.getListDevices().then(function success(list){
@@ -23,7 +21,9 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
                 return;
         }
         _.each(list.data.listOfDevices, function(device){
-            $scope.devicesNameList.push(device.name);
+            if(device.connected === true){ // show only connected device in dropdown list
+                $scope.devicesNameList.push(device.name);
+            }
             // map name to id
             $scope.devicesMap[device.name] = device.id;
         });
@@ -65,6 +65,10 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
         $log.log('device is now: ', device);
         // dust density val for gauge
         var id = $scope.devicesMap[device];
+        $scope.$storage.deviceid = id;
+        // when selecting a device strting to collect and save its metrics in the backend
+        //$http.post('/backend/dust/collect',  {id: id});
+
         setInterval(function (){
             $scope.$apply(function() {
                 getMetric(id);
@@ -73,10 +77,10 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
 
     };
 
-
+    var timeoutPromise;
     var getDataForLineChart = function(){
-        //todo - put in other service
-        $http.get('/backend/dust/lastHour').then(function success(data){
+
+        ChartsService.getLastHourData().then(function success(data){
 
             var timeset = [];
 
@@ -90,14 +94,20 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
 
             $scope.lineChartdata = timeset;
 
+            timeoutPromise = $timeout(getDataForLineChart, 1000); // polling the server for data
+
         });
     };
 
+    $scope.$on('$destroy',function(){
+        $timeout.cancel(timeoutPromise)
+    });
+
     getDataForLineChart();
 
-    $scope.getLineChartData = function(){
-        getDataForLineChart();
-    };
+    //$scope.getLineChartData = function(){
+    //    getDataForLineChart();
+    //};
 
     //linechart options
     $scope.options = {

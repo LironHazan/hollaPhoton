@@ -12,7 +12,8 @@ angular.module('Aura', [
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'ngJustGage'
+    'ngJustGage',
+    'ngStorage'
 ]);
 
 
@@ -22,7 +23,7 @@ angular.module('Aura', [
         controller: 'AuraProxyCtrl'
     }).state('login', {
         url: '/login',
-        templateUrl: 'Aura/Login/login.html',
+        templateUrl: 'Aura/Login/Login.html',
         controller: 'LoginCtrl'
     }).state('tabs-switch', {
         url: '/home',
