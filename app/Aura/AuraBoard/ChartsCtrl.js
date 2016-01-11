@@ -119,10 +119,10 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
         ],
         lineMode: 'linear',
         tension: 0.7,
-        tooltip: {mode: 'scrubber', formatter: function(/*x, y, series*/) {return 'dustDensity';}},
+        tooltip: {mode: 'scrubber', formatter: function(x, y, series) {return y;}},
         drawLegend: true,
         drawDots: true,
-        hideOverflow: false,
+        hideOverflow: true,
         columnsHGap: 7
     };
 
