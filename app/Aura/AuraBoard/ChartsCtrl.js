@@ -65,7 +65,6 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
         $log.log('device is now: ', device);
         // dust density val for gauge
         var id = $scope.devicesMap[device];
-        $scope.$storage.deviceid = id;
         // when selecting a device strting to collect and save its metrics in the backend
         //$http.post('/backend/dust/collect',  {id: id});
 
@@ -105,9 +104,6 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
 
     getDataForLineChart();
 
-    //$scope.getLineChartData = function(){
-    //    getDataForLineChart();
-    //};
 
     //linechart options
     $scope.options = {

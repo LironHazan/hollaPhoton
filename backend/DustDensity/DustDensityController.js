@@ -60,15 +60,19 @@ function getLastHourData(req, res){
 }
 router.get('/lastHour',  getLastHourData);
 
-// when user logs in , start collecting his dust density
-loginEmitter.on('logIn', (creds) =>{
-
-    promise.coroutine(function* () {
+function collectDustDensity(creds){
+    return promise.coroutine(function* () {
         let connectedDevices = yield devicesHandler.getConnectedDevices(creds.username, creds.password);
         logger.debug(connectedDevices[0]);
         dustDensityHandler.collectAndStoreMetrics(creds, connectedDevices[0]);
 
     })();
+}
+// when user logs in , start collecting his dust density
+loginEmitter.on('logIn', (creds) =>{
+
+    collectDustDensity(creds);
+
 
 });
 
