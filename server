@@ -7,6 +7,7 @@
 var app = require('./backend/app');
 var debug = require('debug')('myPhoton:server');
 var http = require('http');
+var dustDensityDeletion = require('./backend/DustDensity/DustDensityDeletion');
 
 /**
  * Get port from environment and store in Express.
@@ -89,6 +90,8 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
   console.log('listening to'+ bind);
+
+  dustDensityDeletion.deleteOldEntries();
 }
 
 process.on('uncaughtException', function (err) {
