@@ -7,7 +7,6 @@
 var logger = require('log4js').getLogger('aura');
 var AbstractModel = require('../Models/AbstractModel');
 var _ = require('lodash');
-var Q = require('q');
 
 function DustDensity ( data){
     this.data = data;
@@ -17,76 +16,63 @@ DustDensity.collectionName = 'dustDensity';
 AbstractModel.enhance(DustDensity);
 
 DustDensity.createEntryPerDevice = function(entry){
-    var deferred = Q.defer();
-    DustDensity.connect(function(collection){
-        collection.dustDensity.insert(entry, function (err, doc) {
-            if (err) {
-                logger.error('error creating node types :' , JSON.stringify(doc), err.toString());
-                deferred.reject(err);
-                return;
-            }
-            doc = _.compact([].concat(doc));
-            deferred.resolve(doc);
+    return new Promise((resolve, reject)=>{
+        DustDensity.connect(function(collection){
+            collection.dustDensity.insert(entry, function (err, doc) {
+                if (err) {
+                    logger.error('error creating node types :' , JSON.stringify(doc), err.toString());
+                    reject(err);
+                    return;
+                }
+                doc = _.compact([].concat(doc));
+                resolve(doc);
 
+            });
         });
     });
-    return deferred.promise;
 };
 
 DustDensity.findEntries = function (projection) {
-    var deferred = Q.defer();
-    DustDensity.connect(function(collection) { // projection = object like: {userId: userid,'fileName': fileName}
-        collection.dustDensity.find(projection, function (err, entry) {
-            if (err) {
-                logger.error('error finding user node types :' + err.toString());
-                deferred.reject(err);
-                return;
-            }
-            if (entry) {
-                deferred.resolve(entry);
-                return;
-            }
-            else { // if ledEntry null
-                deferred.resolve(null);
-            }
+    return new Promise((resolve, reject)=> {
+        DustDensity.connect(function (collection) { // projection = object like: {userId: userid,'fileName': fileName}
+            collection.dustDensity.find(projection, function (err, entry) {
+                if (err) {
+                    logger.error('error finding user node types :' + err.toString());
+                    reject(err);
+                    return;
+                }
+                resolve(entry);
+
+            });
         });
     });
-    return deferred.promise;
 };
 
-DustDensity.updateEntries = function (newEntry, projection) {
-    var deferred = Q.defer();
+/**
+ *
+ * @param newEntry
+ * @param {object} projection
+ * @param {function} callback --> (err, numberOfEntries)
+ */
+DustDensity.updateEntries = function (newEntry, projection, callback) {
     DustDensity.connect(function (collection) {
-        collection.dustDensity.update(projection, newEntry, function(err, numReplaced){
-            if(err){
-                deferred.reject(err);
-            }
-            else {
-                deferred.resolve(numReplaced);
-            }
-        } );
+        collection.dustDensity.update(projection, newEntry, callback);
     });
-    return deferred.promise;
 };
 
 DustDensity.deleteData = function (projection, ops) {
-    var deferred = Q.defer();
-    DustDensity.connect(function(collection) { // projection = object like: {userId: userid,'fileName': fileName}
-        collection.dustDensity.remove(projection, ops, function (err, entry) {
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-            if (entry) {
-                deferred.resolve(entry);
-                return;
-            }
-            else { // if ledEntry null
-                deferred.resolve(null);
-            }
+    return new Promise((resolve, reject) => {
+        DustDensity.connect(function(collection) { // projection = object like: {userId: userid,'fileName': fileName}
+            collection.dustDensity.remove(projection, ops, function (err, numRemoved) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                logger.info('removed: ' + numRemoved + ' entries');
+                resolve(numRemoved);
+            });
         });
     });
-    return deferred.promise;
 };
 
 
