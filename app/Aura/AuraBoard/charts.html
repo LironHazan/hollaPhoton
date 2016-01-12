@@ -15,21 +15,23 @@
 <!--<input type="checkbox" ng-model="collect" ng-change="collectMetrics()"> collecting metrics-->
 
 <div class="container">
-    <div class="col-xs-6">
-       <p> <h4> Charts: </h4> </p>
-        <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
-    </div>
-    <div class="col-xs-6">
-        <div class="dusty-gauge" >
-            <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-8">
+                <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
+
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="dusty-gauge" >
+                    <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
             title: '',
             levelColors: ['#4DB6C5', '#4DB6C5', '#4DB6C5', '#009688'],
             levelGradiant: false
         }"></just-gage>
 
+                </div>
+            </div>
+            </div>
         </div>
-    </div>
-
 </div>
 
 
