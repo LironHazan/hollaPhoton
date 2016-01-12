@@ -20,6 +20,9 @@ var logger = require('log4js').getLogger('aura');
  */
 exports.deleteOldEntries = function(){
     logger.info('deleteOldEntries was invoked');
+
+    dustDensityService.deleteOldData(); // upon server restart
+
     setInterval(() => {
         logger.info('old dust density deletion is on');
         dustDensityService.deleteOldData().then((resolve)=>{
