@@ -15,6 +15,7 @@ function login (req, res) {
         function success(user) {
 
             req.session.userId = user._id.toString();
+            logger.info('Emitting login event');
             loginEmitter.emit('logIn', { username: req.creds, password: middleware.getUserPass()});
 
             res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
