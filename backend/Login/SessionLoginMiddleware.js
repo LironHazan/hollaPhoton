@@ -48,13 +48,13 @@ exports.getUserAndCreds = function(req,res,next){
             return;
         }
 
-        if (!user) {
-            logger.trace('got session without user');
-            res.status(302).send({msg:'got session without user'});
-            return;
-        }
+        //if (!user) {
+        //    logger.trace('got session without user');
+        //    res.status(302).send({msg:'got session without user'});
+        //    return;
+        //}
 
-        logger.trace('got user. put user on request');
+        logger.trace('got user. put user on request ' + JSON.stringify(user, null, 2));
         req.sessionUser = user;
         req.creds = req.session.creds; //.toString();
         next();

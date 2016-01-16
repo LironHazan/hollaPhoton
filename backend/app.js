@@ -56,6 +56,8 @@ app.use(express.static(path.join(__dirname, '..')));
 app.use(express.static(path.join(__dirname, '..', '.tmp')));
 //app.use('/bower_components',express.static(path.join(__dirname, '..', './bower_components')));
 app.use(express.static(path.join(__dirname, '..', 'app')));
+app.use(express.static(path.join(__dirname, '..', 'Aura')));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

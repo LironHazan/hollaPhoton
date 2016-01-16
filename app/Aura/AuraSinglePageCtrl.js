@@ -1,9 +1,13 @@
 /**
- * Created by liron on 9/4/15.
+ * Created by liron on 12/10/15.
  */
+
 'use strict';
 
-angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService, ChartsService, toastr, $http, $log,  /*$localStorage,*/ $timeout) {
+angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, LoginService, DevicesService, ChartsService, toastr, $timeout, $log) {
+
+
+    // using https://github.com/angular-ui/ui-router/wiki + bootstrap ui (tabset)
 
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
@@ -12,13 +16,25 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
     $scope.devicesMap = {}; // device name mapped to id
     $scope.lineChartdata = [];
 
+    $scope.devicesList = [];
+
+    DevicesService.getListDevices().then(function success(list){
+
+        $scope.devicesList = list.data.listOfDevices;
+
+        if( $scope.devicesList.length === 0){
+            $scope.emptyList = true;
+
+        }
+
+    });
 
     //fetch devices and populate devicesMap and devicesNameList
     DevicesService.getListDevices().then(function success(list){
 
         // handle an empty list state - no registered devices
         if( list.data.listOfDevices.length === 0){
-                return;
+            return;
         }
         _.each(list.data.listOfDevices, function(device){
             if(device.connected === true){ // show only connected device in dropdown list
@@ -32,16 +48,10 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
         console.log(err);
     });
 
-    //todo: put in external service
-    function fetchDustDensityById(device){
-        return  $http.post('/backend/dust/dustDensity', {id: device});
-
-    }
-
     // currently not generic, collecting dustDensity only.
-    function getMetric(id){
+    function fetchDustDensity(id){
 
-        fetchDustDensityById(id).then(function success(data){
+        ChartsService.fetchDustDensityById(id).then(function success(data){
             if(data.status===200){
                 var dust = parseFloat(data.data.data.result);
                 dust = dust.toFixed(2);
@@ -49,32 +59,25 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
 
             }
         }, function error(err){
-            toastr.error(err.data, 'Error While Trying To read dust density, Device is not connected' , toastrOpts);
+            toastr.error(err.data, 'Error While Trying To read dust density, Device is not connected', toastrOpts);
 
         });
     }
 
-    $scope.toggleDropdown = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.status.isopen = !$scope.status.isopen;
-    };
-
-// sample the selected device according to its Id and get the metric every 3 secs.
+    // sample the selected device according to its Id and get the metric every 3 secs.
     $scope.sampleSelectedDeviceMetric = function(device){
         $log.log('device is now: ', device);
         // dust density val for gauge
         var id = $scope.devicesMap[device];
         // when selecting a device strting to collect and save its metrics in the backend
-        //$http.post('/backend/dust/collect',  {id: id});
-
         setInterval(function (){
             $scope.$apply(function() {
-                getMetric(id);
+                fetchDustDensity(id);
             });
         }, 3000);
 
     };
+
 
     var timeoutPromise;
     var getDataForLineChart = function(){
@@ -126,4 +129,50 @@ angular.module('Aura').controller('chartsCtrl', function ($scope, DevicesService
         columnsHGap: 7
     };
 
+
+    LoginService.getLoggedUser().then(function (data) {
+        $scope.greeting = 'Hey! you are connected as: ' + data.data.name;
+        $scope.loggedIn = true;
+        $scope.showChart = true;
+        $scope.devicesTable = true;
+        // $scope.showGauge = true;
+
+    });
+
+    $scope.logout = function(){
+
+        LoginService.logout().then(function success(/*data*/){
+            //todo: this is ugly - fix it
+            // $scope.showGauge = false;
+            $scope.showChart = false;
+            $scope.devicesTable = false;
+            $scope.tabset = false;
+
+            $state.go('login'); //back to login page when logged out
+
+        }, function err(/*err*/){
+
+        });
+    };
+
+
+
+    //$scope.tabs = [
+    //    { heading: 'My Devices', route:'tabs-switch.devices', active:false },
+    //    { heading: 'Charts', route:'tabs-switch.charts', active:false }
+    //];
+    //
+    //$scope.go = function(route){ // gets tabs.route (wanted state)
+    //    $state.go(route);
+    //};
+    //
+    //$scope.active = function(route){
+    //    return $state.is(route); // checks for the full state name and returns boolean
+    //};
+    //
+    //$scope.$on("$stateChangeSuccess", function() { // broadcast from rootScope and fired once the state transition is complete
+    //    $scope.tabs.forEach(function(tab) {
+    //        tab.active = $scope.active(tab.route);
+    //    });
+    //});
 });

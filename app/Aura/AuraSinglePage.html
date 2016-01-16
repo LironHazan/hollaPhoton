@@ -1,0 +1,84 @@
+<div ng-controller="auraSingleCtrl">
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-2" >
+            <div class="logo"></div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12 col-md-8"> <h6 ng-show="loggedIn" >{{greeting}} <a class="label label-primary" ng-click="logout()">Logout </a>  </h6></div>
+        </div>
+
+
+
+        <div class="container-fluid">
+            <h6  ng-show="emptyList"> No Devices </h6>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th> Device ID </th>
+                        <th> Device Name </th>
+                        <th> Connectivity </th>
+                    </tr>
+                    <tr ng-repeat="device in devicesList">
+                        <td id="device-id" ng-click="getId()">{{device.id}}</td>
+                        <td> {{device.name}} </td>
+                        <td> {{device.connected === true ? 'ONLINE' : 'OFFLINE'}} </td>
+                        <!--<td>Last App: {{ device.lastApp }} </td>-->
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+
+
+        <div class="btn-group" dropdown keyboard-nav on-toggle="toggled(open)">
+            <button id="simple-btn-keyboard-nav" type="button" class="btn" dropdown-toggle>
+                Select Device <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                <li ng-repeat="device in devicesNameList">
+                    <a tabindex="-1" href="#" ng-click="sampleSelectedDeviceMetric(device)">{{device}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <!--<button class="btn" ng-click="getLineChartData()"> Refresh data</button>-->
+        <!--<input type="checkbox" ng-model="collect" ng-change="collectMetrics()"> collecting metrics-->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
+
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="dusty-gauge" >
+                        <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
+            title: '',
+            levelColors: ['#4DB6C5', '#4DB6C5', '#4DB6C5', '#009688'],
+            levelGradiant: false
+        }"></just-gage>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<tabset>-->
+        <!--<tab-->
+                <!--ng-repeat="tab in tabs"-->
+                <!--heading="{{tab.heading}}"-->
+                <!--select="go(tab.route)"-->
+                <!--active="tab.active">-->
+        <!--</tab>-->
+    <!--</tabset>-->
+</div>
+
+    <div ui-view> </div>
+</div>
+</div>
