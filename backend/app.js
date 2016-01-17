@@ -9,7 +9,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('./conf');
 
-var leds = require('./LED');
 var session = require('./Login');
 var photoresistor = require('./Photoresistor');
 var dust = require('./DustDensity');
@@ -41,7 +40,6 @@ app.use(require('cookie-session')({
  *              Photon Routes Start
  **********************************************************************/
 var router = express.Router();
-router.use('/led', leds.controller); // all led routes goes throw /backend/led/
 router.use('/session', session.controller);
 router.use('/photoresistor', photoresistor.controller);
 router.use('/dust', dust.controller);
@@ -56,7 +54,7 @@ app.use(express.static(path.join(__dirname, '..')));
 app.use(express.static(path.join(__dirname, '..', '.tmp')));
 //app.use('/bower_components',express.static(path.join(__dirname, '..', './bower_components')));
 app.use(express.static(path.join(__dirname, '..', 'app')));
-app.use(express.static(path.join(__dirname, '..', 'Aura')));
+//app.use(express.static(path.join(__dirname, '..', 'Aura')));
 
 
 // catch 404 and forward to error handler

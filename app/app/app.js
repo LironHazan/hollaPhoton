@@ -16,7 +16,7 @@ angular
         'ngStorage'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-        $urlRouterProvider.otherwise('/aura');
+        $urlRouterProvider.otherwise('/login');
 
         //initialize get if not there
         if (!$httpProvider.defaults.headers.get) {

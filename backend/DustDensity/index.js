@@ -3,3 +3,8 @@
  */
 'use strict';
 exports.controller = require('./DustDensityController');
+exports.db = require('./DustDensityDao');
+exports.service = require('./DustDensityService');
+exports.handler = require('./DustDensityHandler');
+exports.deletion = require('./DustDensityDeletion');
+

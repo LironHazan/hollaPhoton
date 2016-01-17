@@ -64,7 +64,7 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
         });
     }
 
-    // sample the selected device according to its Id and get the metric every 3 secs.
+    // sample the selected device according to its Id and get the metric every 6 secs.
     $scope.sampleSelectedDeviceMetric = function(device){
         $log.log('device is now: ', device);
         // dust density val for gauge
@@ -74,7 +74,7 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
             $scope.$apply(function() {
                 fetchDustDensity(id);
             });
-        }, 3000);
+        }, 6000);
 
     };
 
@@ -96,7 +96,7 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
 
             $scope.lineChartdata = timeset;
 
-            timeoutPromise = $timeout(getDataForLineChart, 1000); // polling the server for data
+            timeoutPromise = $timeout(getDataForLineChart, 3000); // polling the server for data
 
         });
     };
