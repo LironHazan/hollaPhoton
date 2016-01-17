@@ -65,7 +65,7 @@ exports.getUserAndCreds = function(req,res,next){
             return;
         }
 
-        logger.trace('got user. put user on request ' + JSON.stringify(user, null, 2));
+        logger.trace('got user. put user on request ' + user.email);
         req.sessionUser = user;
         req.creds = req.session.creds; //.toString();
         next();

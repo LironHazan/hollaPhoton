@@ -16,21 +16,6 @@ function login (req, res) {
 
     res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
-    //sessionLoginDao.User.storeAndSignUser({email: email/*, pass: creds.password*/}).then(
-    //    function success(user) {
-    //
-    //        req.session.userId = user._id.toString();
-    //        logger.info('Emitting login event');
-    //        loginEmitter.emit('logIn', { username: req.creds, password: middleware.getUserPass()});
-    //
-    //        res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
-    //
-    //    }, function error(err) {
-    //        logger.error('Error: ' +err);
-    //        res.status(404).send(err);
-    //    }
-    //);
-
 }
 
 router.post('/login', middleware.login, middleware.getUserAndCreds, login);
