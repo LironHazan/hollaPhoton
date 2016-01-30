@@ -7,8 +7,6 @@
 angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, LoginService, DevicesService, ChartsService, toastr, $timeout, $log) {
 
 
-    // using https://github.com/angular-ui/ui-router/wiki + bootstrap ui (tabset)
-
     var toastrOpts={closeButton: true, extendedTimeOut: 3000, tapToDismiss: false, positionClass: 'toast-bottom-right'};
 
     $scope.dust = 0; //init value for justgage directive
@@ -74,7 +72,7 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
             $scope.$apply(function() {
                 fetchDustDensity(id);
             });
-        }, 6000);
+        }, 6000); // todo: change interval to fetch every sec
 
     };
 
@@ -131,48 +129,16 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
 
 
     LoginService.getLoggedUser().then(function (data) {
-        $scope.greeting = 'Hey! you are connected as: ' + data.data.name;
+        $scope.greeting = 'You are connected as: ' + data.data.name;
         $scope.loggedIn = true;
-        $scope.showChart = true;
-        $scope.devicesTable = true;
-        // $scope.showGauge = true;
-
     });
 
     $scope.logout = function(){
-
         LoginService.logout().then(function success(/*data*/){
-            //todo: this is ugly - fix it
-            // $scope.showGauge = false;
-            $scope.showChart = false;
-            $scope.devicesTable = false;
-            $scope.tabset = false;
-
             $state.go('login'); //back to login page when logged out
-
-        }, function err(/*err*/){
-
+        }, function err(err){
+            $log.log('Error while logout: ', err);
         });
     };
 
-
-
-    //$scope.tabs = [
-    //    { heading: 'My Devices', route:'tabs-switch.devices', active:false },
-    //    { heading: 'Charts', route:'tabs-switch.charts', active:false }
-    //];
-    //
-    //$scope.go = function(route){ // gets tabs.route (wanted state)
-    //    $state.go(route);
-    //};
-    //
-    //$scope.active = function(route){
-    //    return $state.is(route); // checks for the full state name and returns boolean
-    //};
-    //
-    //$scope.$on("$stateChangeSuccess", function() { // broadcast from rootScope and fired once the state transition is complete
-    //    $scope.tabs.forEach(function(tab) {
-    //        tab.active = $scope.active(tab.route);
-    //    });
-    //});
 });

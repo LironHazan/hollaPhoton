@@ -46,37 +46,29 @@
             </ul>
         </div>
 
-        <!--<button class="btn" ng-click="getLineChartData()"> Refresh data</button>-->
-        <!--<input type="checkbox" ng-model="collect" ng-change="collectMetrics()"> collecting metrics-->
 
         <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-8">
-                    <linechart data="lineChartdata" options="options" mode="" width="550" height="300"></linechart>
+            <div class="charts">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-8">
 
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="dusty-gauge" >
-                        <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
+                        <linechart class= "linechart" data="lineChartdata" options="options" mode=""></linechart>
+
+                    </div>
+                    <div class="col-xs-6 col-md-2">
+                        <div class="dusty-gauge" >
+                            <just-gage id="dust-gauge" min=0 max=1000 value="dust"  options="{
             title: '',
             levelColors: ['#4DB6C5', '#4DB6C5', '#4DB6C5', '#009688'],
             levelGradiant: false
         }"></just-gage>
 
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
-
-
-        <!--<tabset>-->
-        <!--<tab-->
-                <!--ng-repeat="tab in tabs"-->
-                <!--heading="{{tab.heading}}"-->
-                <!--select="go(tab.route)"-->
-                <!--active="tab.active">-->
-        <!--</tab>-->
-    <!--</tabset>-->
 </div>
 
     <div ui-view> </div>

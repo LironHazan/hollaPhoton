@@ -64,7 +64,7 @@ exports.collectAndStoreMetrics = function(credentials, deviceId){
                     });
                 });
 
-    }, 60000);
+    }, 6000); //todo: change interval to every sec instead - changed from 60000 to 6000
 
 };
 
