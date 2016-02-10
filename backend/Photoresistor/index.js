@@ -3,3 +3,4 @@
  */
 'use strict';
 exports.controller = require('./PhotoresistorController');
+exports.db = require('./PhotoresistorDao');

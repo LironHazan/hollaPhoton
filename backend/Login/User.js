@@ -41,9 +41,9 @@ User.storeAndSignUser = function (user) {
                 else {
                     collection.users.count({ 'email': user.email }, function (err, count) {
                         if (count > 0) {
-                            logger.error('user with email ' + user.email + ' already exists');
-                            deffered.reject('user with email ' + user.email + ' already exists');
-                         //   return;
+                            logger.info('user with email ' + user.email + ' already exists');
+                            deffered.resolve(user);
+                            //return;
                         } else {
                             collection.users.insert(user, function (err, doc) {
                                 if (err) {

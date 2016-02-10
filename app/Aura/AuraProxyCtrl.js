@@ -9,7 +9,7 @@ angular.module('Aura').controller('AuraProxyCtrl', function ($scope, LoginServic
 // check if user is logged in - if so route him to /home if not route him to /login page
 
     LoginService.getLoggedUser().then(function logged() {
-        $state.go('tabs-switch');
+        $state.go('home');
     }, function notLogged(){
         $state.go('login');
     });
