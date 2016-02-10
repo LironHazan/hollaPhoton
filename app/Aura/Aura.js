@@ -27,7 +27,7 @@ angular.module('Aura', [
         controller: 'LoginCtrl'
     }).state('tabs-switch', {
         url: '/home',
-        templateUrl: 'Aura/AuraBoard/auraTabsSwitch.html'
+        templateUrl: 'Aura/AuraBoard/AuraTabsSwitch.html'
     }).state('tabs-switch.devices', {
         url: '/myDevices',
         templateUrl: 'Aura/AuraBoard/myDevices.html'

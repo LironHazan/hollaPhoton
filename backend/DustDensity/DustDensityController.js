@@ -15,6 +15,7 @@ var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');
 var promise = require('bluebird');
 var loginEmitter = require('../Login/LoginEventEmitter').LoginEventEmitter;
+var async = require('async');
 
 function getDustDensityMetrics(req, res){
     var device = req.body;
@@ -63,8 +64,15 @@ router.get('/lastHour',  getLastHourData);
 function collectDustDensity(creds){
     return promise.coroutine(function* () {
         let connectedDevices = yield devicesHandler.getConnectedDevices(creds.username, creds.password);
-        logger.debug(connectedDevices[0]);
-        dustDensityHandler.collectAndStoreMetrics(creds, connectedDevices[0]);
+        logger.debug('connected devices: [' +connectedDevices + ']');
+
+        // tmp handling - collecting dust density for all connected devices
+        async.each(connectedDevices, (device) => {
+
+            dustDensityHandler.collectAndStoreMetrics(creds, device);
+        }, (err, metrics)=>{
+            logger.debug('collected dust density results for all connected devices: [', metrics + ']');
+        });
 
     })();
 }

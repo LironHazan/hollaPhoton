@@ -11,20 +11,10 @@ var loginEmitter = require('./LoginEventEmitter').LoginEventEmitter;
 function login (req, res) {
 
     var email = req.creds;
-    sessionLoginDao.User.storeAndSignUser({email: email/*, pass: creds.password*/}).then(
-        function success(user) {
+    logger.info('Emitting login event');
+    loginEmitter.emit('logIn', { username: req.creds, password: middleware.getUserPass()});
 
-            req.session.userId = user._id.toString();
-            logger.info('Emitting login event');
-            loginEmitter.emit('logIn', { username: req.creds, password: middleware.getUserPass()});
-
-            res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
-
-        }, function error(err) {
-            logger.error('Error: ' +err);
-            res.status(404).send(err);
-        }
-    );
+    res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
 }
 
@@ -35,8 +25,8 @@ router.get('/user',middleware.getUserAndCreds, function(req,res){
 });
 
 function logout(req, res){
-
-    res.status(200).send({msg:'logged out'});
+    req.session = null;
+    res.send({msg:'logged out'});
 }
 router.get('/logout',middleware.logOut, logout);
 
