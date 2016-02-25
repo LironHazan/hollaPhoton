@@ -3,11 +3,11 @@
  */
 
 'use strict';
-angular.module('Aura').service('ChartsService', function ( $http , $q) {
+angular.module('Aura').service('ChartsService', function ($http) {
 
     this.getLastHourData = function () {
 
-        return $http.get('/backend/dust/lastHour')
+        return $http.get('/backend/dust/lastHour');
     };
 
 

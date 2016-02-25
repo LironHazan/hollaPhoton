@@ -13,6 +13,8 @@ function Devices ( data){
     this.data = data;
 }
 
+//devices model
+
 Devices.collectionName = 'device';
 AbstractModel.enhance(Devices);
 

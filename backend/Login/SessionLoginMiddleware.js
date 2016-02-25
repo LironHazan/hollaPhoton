@@ -5,7 +5,7 @@
  */
 var user = require('./User');
 var logger = require('log4js').getLogger('aura');
-var loginToParicale = require('../Login/LoginToParticle');
+var handlers = require('./handlers');
 var sessionLoginDao = require('../Login/User');
 
 
@@ -20,7 +20,7 @@ exports.getUserPass = function(){
 exports.login = function( req, res, next ){
 
     var creds = req.body;
-    var adapter = new loginToParicale.LoginAdapter(creds);
+    var adapter = new handlers.login.LoginHandler(creds);
     userPass = adapter.getCreds();
     adapter.login().then(function success(/*token*/) {
         logger.info('Was able to login to particle');

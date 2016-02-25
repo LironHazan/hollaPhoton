@@ -3,5 +3,5 @@
  */
 'use strict';
 exports.controller = require('./DevicesController');
-exports.handler = require('./DevicesHandler');
+exports.handler = require('./handlers');
 exports.db = require('./DevicesDao');

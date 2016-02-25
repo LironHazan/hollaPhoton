@@ -100,7 +100,7 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
     };
 
     $scope.$on('$destroy',function(){
-        $timeout.cancel(timeoutPromise)
+        $timeout.cancel(timeoutPromise);
     });
 
     getDataForLineChart();
@@ -120,7 +120,7 @@ angular.module('Aura').controller('auraSingleCtrl', function ($scope, $state, Lo
         ],
         lineMode: 'linear',
         tension: 0.7,
-        tooltip: {mode: 'scrubber', formatter: function(x, y, series) {return y;}},
+        tooltip: {mode: 'scrubber', formatter: function(x, y/*, series*/) {return y;}},
         drawLegend: true,
         drawDots: true,
         hideOverflow: true,

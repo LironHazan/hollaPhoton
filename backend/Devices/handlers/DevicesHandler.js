@@ -6,6 +6,8 @@
 
 var spark = require('spark');
 var _ = require('lodash');
+var logger = require('log4js').getLogger('aura');
+
 
 
 exports.getConnectedDevices = function (userName, passwd) {
@@ -18,7 +20,7 @@ exports.getConnectedDevices = function (userName, passwd) {
                             listOfConnectedDevices.push(device.id);
                         }
                     });
-                    resolve(listOfConnectedDevices)
+                    resolve(listOfConnectedDevices);
                 });
             }, (err) =>{
                 logger.error('Error while trying to login: ' , err);

@@ -8,8 +8,7 @@ var router = express.Router();
 var dustDensityService = require('./DustDensityService');
 var dustDensityHandler = require('./DustDensityHandler');
 
-var devicesHandler = require('../Devices/DevicesHandler');
-var spark = require('spark');
+var devicesHandler = require('../Devices/handlers/DevicesHandler');
 var _ = require('lodash');
 var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');

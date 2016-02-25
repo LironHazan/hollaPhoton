@@ -9,8 +9,8 @@ angular.module('Aura').controller('LoginCtrl', function ( $rootScope, $scope, $s
 
 
     $scope.isLogin = false;
-    $scope.email;
-    $scope.passwd;
+    //$scope.email;
+    //$scope.passwd;
 
     $scope.login = function () {
         LoginService.login({email:$scope.email, passwd:$scope.passwd}).then( function success (){

@@ -3,15 +3,18 @@
  */
 'use strict';
 
-const util = require('util');
 var EventEmitter = require('events');
 
-function LoginEventEmitter() {
-    EventEmitter.call(this);
+/**
+ * creating login event emitter for emitting events on login
+ */
+class Login extends EventEmitter {
+
+    constructor() {
+        super();
+    }
 }
 
-util.inherits(LoginEventEmitter, EventEmitter);
-
-var loginEmitter = new LoginEventEmitter();
+var loginEmitter = new Login();
 
 exports.LoginEventEmitter = loginEmitter;

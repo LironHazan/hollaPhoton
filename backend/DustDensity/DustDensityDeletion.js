@@ -30,7 +30,7 @@ exports.deleteOldEntries = function(){
 
         }, (err) =>{
             logger.error('Error while trying to remove old entries' , err);
-        })
+        });
     }, 10800000); // run every 3 hours
 
 };
