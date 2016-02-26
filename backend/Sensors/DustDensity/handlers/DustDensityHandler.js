@@ -4,7 +4,7 @@
 'use strict';
 
 var logger = require('log4js').getLogger('aura');
-var dustDensityService = require('./DustDensityService');
+var dustDensityService = require('./../DustDensityService');
 var spark = require('spark');
 
 exports.getDustDensityMetrics = function(credentials, deviceId){

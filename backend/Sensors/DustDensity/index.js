@@ -5,6 +5,5 @@
 exports.controller = require('./DustDensityController');
 exports.db = require('./DustDensityDao');
 exports.service = require('./DustDensityService');
-exports.handler = require('./DustDensityHandler');
-exports.deletion = require('./DustDensityDeletion');
+exports.handler = require('./handlers/DustDensityHandler');
 

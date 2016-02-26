@@ -11,8 +11,8 @@ var bodyParser = require('body-parser');
 var config = require('./conf');
 
 var session = require('./Login');
-var photoresistor = require('./Photoresistor');
-var dust = require('./DustDensity');
+var photoresistor = require('./Sensors/Photoresistor');
+var dust = require('./Sensors/DustDensity');
 var devices = require('./Devices');
 var app = express();
 

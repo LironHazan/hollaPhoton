@@ -6,14 +6,14 @@
 var express = require('express');
 var router = express.Router();
 var dustDensityService = require('./DustDensityService');
-var dustDensityHandler = require('./DustDensityHandler');
+var dustDensityHandler = require('./handlers/DustDensityHandler').handler;
 
-var devicesHandler = require('../Devices/handlers/DevicesHandler');
+var devicesHandler = require('../../Devices/handlers/DevicesHandler');
 var _ = require('lodash');
-var sessionLoginMiddleware = require('../Login/SessionLoginMiddleware');
+var sessionLoginMiddleware = require('../../Login/SessionLoginMiddleware');
 var logger = require('log4js').getLogger('aura');
 var promise = require('bluebird');
-var loginEmitter = require('../Login/LoginEventEmitter').LoginEventEmitter;
+var loginEmitter = require('../../Login/LoginEventEmitter').LoginEventEmitter;
 var async = require('async');
 
 function getDustDensityMetrics(req, res){
