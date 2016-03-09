@@ -8,38 +8,44 @@ var logger = require('log4js').getLogger('aura');
 var handlers = require('./handlers');
 var sessionLoginDao = require('../Login/User');
 
-
-var userPass = null;
-
-exports.getUserPass = function(){
- return userPass;
-
+//caching the user passwd
+var cache = {
+     userPass : '',
+     getUserPass: function(){
+            return this.userPass;
+        }
 };
 
+//returns the user passwd
+exports.getUserPass = function(){
+ return cache.getUserPass();
+};
 
 exports.login = function( req, res, next ){
 
-    var creds = req.body;
-    var adapter = new handlers.login.LoginHandler(creds);
-    userPass = adapter.getCreds();
-    adapter.login().then(function success(/*token*/) {
+    let userCreds = req.body;
+    cache.userPass = userCreds.passwd; // populating cache
+
+    let particleLoginObj = new handlers.login.LoginHandler(userCreds);
+    particleLoginObj.login().then(() => { //calling login to particle
         logger.info('Was able to login to particle');
 
+        req.session.creds = userCreds.email;
 
-        req.creds = creds.email;
-        req.session.creds =  creds.email;
         //save user in db
-        sessionLoginDao.User.storeAndSignUser(creds).then((user)=>{
-            // put the userId on session
-            if(user._id){
-                req.session.userId = user._id.toString();
-            }
-            next();}, (err) => {
-            logger.error('Error while storing user: ' + err);
-        });
+        sessionLoginDao.User.storeAndSignUser(userCreds).then((user)=> {
+                // put the userId on session
+                if (user._id) {
+                    req.session.userId = user._id.toString();
+                }
+                next();
+            },
+            (err) => {
+                logger.error('Error while storing user: ' + err);
+            });
 
-    }, function error(err) {
-        logger.error('Error [' +  JSON.stringify(err, null, 4) + ']');
+    }, (err) => {
+        logger.error('Error [' + JSON.stringify(err, null, 4) + ']');
         res.status(404).send(err.message);
     });
 };
@@ -88,10 +94,10 @@ exports.getUserSessionId = function(req,res,next){
 
 exports.logOut = function( req, res, next ){
     //todo: fix logout - doen't work
+    cache.userPass = '';
     req.session.creds = null;
     req.sessionUser = null;
     req.userSessionId = null;
-
     next();
 
 };

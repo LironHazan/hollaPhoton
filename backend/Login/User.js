@@ -5,7 +5,6 @@
 var AbstractModel = require('../Models/AbstractModel');
 var _ = require('lodash');
 var logger = require('log4js').getLogger('aura');
-var Q = require('q');
 
 function User( data ){
     this.data = data;
@@ -18,42 +17,38 @@ User.getPublicUserDetails = function (user) {
     return {'email': user.email};
 };
 
-//if user is not exists create.
+//if user does not exists create it.
 User.storeAndSignUser = function (user) {
-    var deffered = Q.defer();
 
+return new Promise((resolve, reject)=>{
     if (_.isEmpty(user.email)) {
-      //  callback('invalid user');
+        resolve();
         return;
     }
-
-    else{
         User.connect(function (collection) {
             collection.users.findOne({email: new RegExp('^' + user.email + '$', 'i')}, function (err, doc) {
                 if (err) {
                     logger.error(err);
-                    deffered.reject(err);
+                    reject(err);
                 }
                 if (doc) {
                     logger.info('user already exists');
-                   return deffered.resolve(doc); // user Id
+                    resolve(doc); // user Id
                 }
                 else {
                     collection.users.count({ 'email': user.email }, function (err, count) {
                         if (count > 0) {
                             logger.info('user with email ' + user.email + ' already exists');
-                            deffered.resolve(user);
-                            //return;
+                            resolve(user);
                         } else {
                             collection.users.insert(user, function (err, doc) {
                                 if (err) {
                                     logger.error('error storing user :' + err.message);
-                                    deffered.reject('error storing user :' + err.message);
-                           //         return;
+                                    reject('error storing user :' + err.message);
+                                    //         return;
                                 } else {
                                     logger.info('user was stored successfully');
-                                    deffered.resolve(doc);
-                             //       return;
+                                    resolve(doc);
                                 }
 
                             });
@@ -66,9 +61,9 @@ User.storeAndSignUser = function (user) {
             });
 
         });
-    }
 
-    return deffered.promise;
+    });
+
 };
 
 
