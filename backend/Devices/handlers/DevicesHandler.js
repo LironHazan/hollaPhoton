@@ -85,7 +85,6 @@ exports.filteredListOfDevices = function(devices){
  */
 exports.getConnectedDevices = function (userName, passwd) {
     return new Promise((resolve, reject) => {
-        exports.login(userName, passwd).then(() => {
             exports.getDevices().then((devices) => {
                 let listOfConnectedDevices=   _.filter(exports.filteredListOfDevices(devices) , (device) =>  {
                         return device.connected; // filter by connected===true
@@ -94,11 +93,6 @@ exports.getConnectedDevices = function (userName, passwd) {
                 }, (err)=>{ logger.error('Error while trying to get list of devices: ' , err.message);
                     reject(err);
                 });
-            }, (err) =>{
-                logger.error('Error while trying to login: ' , err);
-                reject(err);
-            });
-
         }
     );
 };

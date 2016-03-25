@@ -18,10 +18,10 @@ var async = require('async');
 
 function getDustDensityMetrics(req, res){
     var device = req.body;
-    if(req.creds){
+    if(req.creds){ //todo: check with real data again
         var passwd = sessionLoginMiddleware.getUserPass();
-        var credentials = { username: req.creds, password: passwd} ;
-        dustDensityHandler.getDustDensityMetrics(credentials, device.id).then(
+        var credentials = { username: req.session.creds, password: passwd} ;
+        dustDensityHandler.getDustDensityMetrics(device.id).then(
             function success(metric){
                 res.status(200).send({data:metric});
             }, function error(err){
@@ -32,7 +32,7 @@ function getDustDensityMetrics(req, res){
         res.status(401).send({msg:'pls login'});
     }
 }
-router.post('/dustDensity', sessionLoginMiddleware.getUserAndCreds, getDustDensityMetrics);
+router.post('/dustDensity', sessionLoginMiddleware.login, getDustDensityMetrics);
 
 function getLastHourData(req, res){
     dustDensityService.findLastHourEntries().then(function success(data){
@@ -77,10 +77,7 @@ function collectDustDensity(creds){
 }
 // when user logs in , start collecting his dust density
 loginEmitter.on('logIn', (creds) =>{
-
     collectDustDensity(creds);
-
-
 });
 
 module.exports = router;

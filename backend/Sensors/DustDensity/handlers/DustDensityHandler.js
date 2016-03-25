@@ -7,25 +7,20 @@ var logger = require('log4js').getLogger('aura');
 var dustDensityService = require('./../DustDensityService');
 var spark = require('spark');
 
-exports.getDustDensityMetrics = function(credentials, deviceId){
-return new Promise( (resolve, reject) => {
-    spark.login(credentials).then(() => {
-        spark.getVariable(deviceId, 'dustDensity', (err, data) => {
-            if (err) {
-                logger.error('Error while getting variable data: ' + err);
-                reject(err);
-                return;
-            }
-            resolve(data);
-
-        });
-
-    }, (err) => {
-        logger.info('Error while login: ' + err);
-        reject(err);
-    });
-
-});
+exports.getDustDensityMetrics = function(deviceId){
+    //todo: check if it works
+    return spark.getVariable(deviceId, 'dustDensity', null);
+//    return new Promise( (resolve, reject) => {
+//        spark.getVariable(deviceId, 'dustDensity', (err, data) => {
+//            if (err) {
+//                logger.error('Error while getting variable data: ' + err);
+//                reject(err);
+//                return;
+//            }
+//            resolve(data);
+//
+//        });
+//});
 };
 
 function formatTime(){

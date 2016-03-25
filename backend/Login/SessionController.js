@@ -8,27 +8,26 @@ var middleware = require('./SessionLoginMiddleware');
 var loginEmitter = require('./LoginEventEmitter').LoginEventEmitter;
 
 /**
- * @description login to the particle service
+ * @description login to the particle service and the aura UI and emmit the login event for other tasks to start
  * @param req
  * @param res
  */
 function login (req, res) {
 
-    var email = req.creds;
+    var email = req.session.creds;
     logger.info('Emitting login event');
     loginEmitter.emit('logIn', { username: req.creds, password: middleware.getUserPass()}); // passing the creds to the observer
 
     res.status(200).send({msg: 'Hey ' + email + ' you are currently logged in to the particle cloud'});
 
 }
-
-router.post('/login', middleware.login, middleware.getUserAndCreds, login);
+router.post('/login', middleware.login, login);
 
 /**
  * get the currently logged user email
  */
-router.get('/user',middleware.getUserAndCreds, function(req,res){
-    res.status(200).send({name: req.sessionUser.email});
+router.get('/user',middleware.login, function(req,res){
+    res.status(200).send({name: req.session.creds});
 });
 
 /**
@@ -40,6 +39,6 @@ function logout(req, res){
     req.session = null;
     res.send({msg:'logged out'});
 }
-router.get('/logout',middleware.logOut, logout);
+router.get('/logout', logout);
 
 module.exports = router;

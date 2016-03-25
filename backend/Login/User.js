@@ -19,7 +19,6 @@ User.getPublicUserDetails = function (user) {
 
 //if user does not exists create it.
 User.storeAndSignUser = function (user) {
-
 return new Promise((resolve, reject)=>{
     if (_.isEmpty(user.email)) {
         resolve();
@@ -63,7 +62,6 @@ return new Promise((resolve, reject)=>{
         });
 
     });
-
 };
 
 
